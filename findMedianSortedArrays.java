@@ -43,9 +43,13 @@ public class Solution {
     	int ib = k - ia;
 
     	if (A[startA + ia - 1] > B[startB + ib - 1])
-    		return findKth(A, B, startA, startA + ia - 1, startB + ib, endB, k - ib);
+    		// B's first k/2 will be discarded, and only check A's first k/2
+    		return findKth(A, B, startA, startA + ia - 1, 
+    			startB + ib, endB, k - ib);
     	else if (A[startA + ia - 1] < B[startB + ib - 1])
-    		return findKth(A, B, startA + ia, endA, startB, startB + ib - 1, k - ia);
+    		// A's first k/2 will be discarded, and only check B's first k/2
+    		return findKth(A, B, startA + ia, endA, 
+    			startB, startB + ib - 1, k - ia);
     	else return A[ia - 1];
     }
 }
