@@ -29,7 +29,7 @@ public class Solution {
     public boolean canJump(int[] A) {
         if (A.length == 0) return false;
         int n = A.length;
-        // max index could be reached
+        // max index could be reached in all previous nodes
         int reach = 0;
         // Error: intermediate stage needs condition: i <= reach
         for (int i = 0; i < n && i <= reach; i++) {

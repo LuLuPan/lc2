@@ -45,6 +45,7 @@ public class Solution {
         	cur = stack.peek();
         	if (prev == null || prev.left == cur || prev.right == cur) {
         		// top to bottom
+                        // go to left
         		if (cur.left != null)
         			stack.push(cur.left);
         		else if (cur.right != null)
@@ -55,10 +56,11 @@ public class Solution {
         			stack.pop();
         		}
         	} else if (cur.left == prev && cur.right != null) {
-        		// right subtree hasn't been processed
+        		// go right, right subtree hasn't been processed
+                        // do not change cur directly, cur will be assigned to prev
         		stack.push(cur.right);
         	} else {
-        		// back to root
+        		// from right subtree back to root
         		result.add(cur.val);
         		stack.pop();
         	}
@@ -78,11 +80,15 @@ public class Solution {
 
         // Need a dummy root node, or it cannot handle single root case
         TreeNode dummy = new TreeNode(0);
+        // make whole tree as dummy's left subtree
+        // dummy.right == null which is terminate condition
         dummy.left = root;
         TreeNode cur = dummy;
         TreeNode prev = null;
         while (cur != null) {
         	if (cur.left == null) {
+                        // when back to dummy without right subtree
+                        // traversal terminated
         		cur = cur.right;
         	} else {
         		prev = cur.left;

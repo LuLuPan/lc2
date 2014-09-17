@@ -14,7 +14,7 @@ such as "/home//foo/".
 In this case, you should ignore redundant slashes and return "/home/foo".
 
 
-Corener Cases: /xxx/yyy
+Corener Cases: /xxx/yyy, /xxx/..
 */
 public class Solution {
     public String simplifyPath(String path) {

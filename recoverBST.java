@@ -21,6 +21,14 @@ A.      1 cur
 B.      1 prev
        / \
       2   3 cur
+C.
+     1 cur
+    /
+    2
+     \
+      \
+       3 prev
+
 Check prev and cur val every time before updated.
 */
 /**
@@ -41,7 +49,7 @@ public class Solution {
         TreeNode prev = null;
         while (cur != null) {
         	if (cur.left == null) {
-        		// Case A.
+        		// Case B.
         		detect(pair, prev, cur);
         		//left most of left subtree.
         		prev = cur;
@@ -57,7 +65,7 @@ public class Solution {
         			detect(pair, prev, cur);
         			// prev will become right most in left subtree
         			// cur will become root
-        			// Case B.
+        			// Case A. C
         			prev = cur;
         			cur = cur.right;
         			node.right = null;
