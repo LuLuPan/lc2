@@ -81,7 +81,7 @@ public class Solution {
         int low = start;
         start = 0;
         end = n - 1;
-        while (start <= end) {
+        while (start < end) {
             int middle = start + (end - start) / 2;
             if (A[middle] < target + 1)
                 start = middle + 1;

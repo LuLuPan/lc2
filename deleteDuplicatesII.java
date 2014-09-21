@@ -23,42 +23,26 @@ public class Solution {
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode prev = dummy;
-        ListNode cur = dummy.next;
-        while (cur.next != null) {
-        	if (cur.val == cur.next.val)
-        		cur = cur.next;
-        	else {
-        		// find first un-equal
-        		// if prev.next = cur, means continous non-equal elements
-        		// keep prev anc cur moving forward
-        		if (prev.next == cur) {
-        			prev = prev.next;
-        			cur = cur.next;
-        		} else {
-        			// if not, means continous equaled element found
-        			// need to ignore them
-        			// if two or more continous equaled range found
-        			// keep moving until the first non-continous element found
-        		    cur = cur.next;
-        		    if (cur.next != null && cur.val == cur.next.val)
-        			    continue;
-        		    else {
-        			    // find continous two elments are not equal 
-        			    prev.next = cur;
-        			    prev = prev.next;
-        			    if (cur.next != null)
-        			       cur = cur.next;
-        			}
-        		}
-        	}
+        ListNode cur = head;
+        while (cur != null) {
+            // flag to mark equal pair
+            boolean dup = false;
+            while (cur.next != null && cur.val == cur.next.val) {
+                dup = true;
+                cur = cur.next;
+            }
+            if (dup) {
+                cur = cur.next;
+                continue;
+            }
+            // find the first unequaled pair
+            // cur != cur.next
+            prev.next = cur;
+            prev = prev.next;
+            cur = cur.next;
         }
-
-        // in case of continous equaled elements at the end
-        if (prev.next != null && prev.next.next != null) {
-        	if (prev.next.val == prev.next.next.val)
-        		prev.next = null;
-        }
-
+        
+        prev.next = cur;
         return dummy.next;
     }
 }
