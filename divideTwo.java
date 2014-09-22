@@ -14,7 +14,7 @@ public class Solution {
         	int multi = 1;
         	// if not enough for doubled, back to itself
         	long bb = b;
-
+            // a could be small than bb * 2, but still could be bigger than b
         	while (a >= bb) {
         		a -= bb;
         		count += multi;

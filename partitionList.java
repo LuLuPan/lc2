@@ -20,6 +20,43 @@ return 1->2->2->4->3->5
  *     }
  * }
  */
+
+// better method
+// Solution:
+// use two pointer to partition list into two
+// one is smaller ones and the other is bigger ones
+// at the end, merge two together
+public class Solution {
+    public ListNode partition(ListNode head, int x) {
+        if (head == null || head.next == null) return head;
+        ListNode smaller_dummy = new ListNode(-1);
+        smaller_dummy.next = head;
+        ListNode smaller = smaller_dummy;
+        ListNode bigger_dummy = new ListNode(-1);
+        bigger_dummy.next = head;
+        ListNode bigger = bigger_dummy;
+
+        ListNode cur = head;
+        while (cur != null) {
+            if (cur.val < x) {
+                smaller.next = cur;
+                smaller = cur;
+            } else {
+                bigger.next = cur;
+                bigger = cur;
+            }
+        }
+
+        smaller.next = bigger_dummy.next;
+        bigger.next = null;
+
+        return smaller_dummy.next;
+    }
+}
+
+
+
+
 public class Solution {
     public ListNode partition(ListNode head, int x) {
         if (head == null || head.next == null) return head;
