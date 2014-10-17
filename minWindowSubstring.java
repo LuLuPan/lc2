@@ -41,12 +41,14 @@ public class Solution {
             if (expected[S.charAt(i)] > 0) {
                 // find one matched
                 appeared[S.charAt(i)]++;
+                // after first match, appears will not be changed any more
                 if (appeared[S.charAt(i)] <= expected[S.charAt(i)])
                     appears++;
             } 
-
+            // after first match, this happens each time afterwards
             if (appears == T.length()) {
                 // all matched and move start point to squeenze window
+                // winStart will change only when its dup shows up
                 while (expected[S.charAt(winStart)] == 0 ||
                     appeared[S.charAt(winStart)] > expected[S.charAt(winStart)]) {
                     //winStart++;
@@ -60,7 +62,7 @@ public class Solution {
                 }
             }
         }
-
+        // if no match...
         if (minWindow == Integer.MAX_VALUE)
             return result;
         result = S.substring(start, start + minWindow);

@@ -1,0 +1,65 @@
+import java.util.*;
+import java.io.*;
+import java.io.BufferedWriter;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+import java.math.BigInteger;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.io.IOException;
+import java.util.Arrays;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.util.Comparator;
+
+public class Main {
+    public static void main(String[] args) {
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        OutputWriter out = new OutputWriter(outputStream);
+        Solution sol = new Solutioin();
+        sol.checkPalindrome(in, out);
+    }
+}
+
+class Solution {    
+    public void checkPalindrome(InputReader in, OutputWriter out) {
+        String s = in.readString();
+        int n = s.length();
+        HashSet<String> set = new HashSet<String>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                char[] tmpArr = s.toCharArray();
+                char tmp = tmpArr[i];
+                tmpArr[i] = tmpArr[j];
+                tmpArr[j] = tmp;
+                
+                String tmpStr = new String(tmpArr);
+                if (isPalindrome(tmpStr))
+                    set.add(tmpStr);
+            }
+        }
+        List<String> l = new ArrayList<String>(set);
+        Collections.sort(l);
+        out.printLine(set.size());
+        for (String str : l)
+            out.printLine(str);
+    }
+    
+    private boolean isPalindrome(String s) {
+        if (s == null || s.length() == 0) return false;
+        
+        int end = s.length() - 1;
+        int start = 0;
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end))
+                return false;
+            start++;
+            end--;
+        }
+        
+        return true;
+    }
+}

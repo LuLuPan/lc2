@@ -21,6 +21,8 @@ public class Solution {
             if (stack.empty() || new_height[i] > new_height[stack.peek()])
                 stack.push(i++);
             else {
+                // if a lower bar showes up, pop all higher bar in the stack
+                // until it is higher than peek's height then push to stack
                 // process previous higher bar
                 // cur highest one which width is one.
                 int index = stack.peek();

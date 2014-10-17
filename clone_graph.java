@@ -79,6 +79,7 @@ public class Solution {
             UndirectedGraphNode nd = queue.poll();
             for (UndirectedGraphNode hbr : nd.neighbors) {
                 if (copied.containsKey(hbr)) {
+                    // if copied, do not add to queue to avoid infinite graph loop
                     copied.get(nd).neighbors.add(copied.get(hbr));
                 } else {
                     new_nd = new UndirectedGraphNode(hbr.label);

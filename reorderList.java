@@ -10,7 +10,7 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 Solution: 1. Find second half of list
           2. Reverse it
           3. Merge two half
-Complexity: O(n) + O(1)
+Complexity: O(N) + O(1)
 */
 /**
  * Definition for singly-linked list.
@@ -25,42 +25,44 @@ Complexity: O(n) + O(1)
  */
 public class Solution {
     public void reorderList(ListNode head) {
-    	// for 1->2, return directly
         if (head == null || head.next == null || head.next.next == null)
             return;
-        ListNode dummy = new ListNode(-1);
+            
+        ListNode dummy = new ListNode(Integer.MIN_VALUE);
         dummy.next = head;
-        ListNode cur = head;
         ListNode slow = dummy;
-
-        while (cur != null && cur.next != null) {
-        	cur = cur.next.next;
-        	slow = slow.next;
+        ListNode fast = dummy;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
         }
-
-        cur = slow.next.next;
-        ListNode prev = slow.next;
-        while (cur != null) {
-        	prev.next = cur.next;
-        	cur.next = slow.next;
-        	slow.next = cur;
-        	cur = prev.next;
-        }
-
-        ListNode prev2 = slow.next;
-        ListNode cur2 = prev2.next;
+        
+        // split into two
+        fast = slow.next;
         slow.next = null;
-        prev = head;
-        cur = prev.next;
-        while (cur != null && cur2 != null) {
-        	prev.next = prev2;
-        	prev2.next = cur;
-        	prev = cur;
-        	cur = cur.next;
-        	prev2 = cur2;
-        	cur2 = cur2.next;
+        
+        // reverse big list
+        ListNode last = new ListNode(Integer.MIN_VALUE);
+        last.next = fast;
+        ListNode prev = fast;
+        ListNode cur = fast.next;
+        while (cur != null) {
+            prev.next = cur.next;
+            cur.next = last.next;
+            last.next = cur;
+            cur = prev.next;
         }
-        // Error: No condition here
-        prev.next = prev2;
+        
+        // merge two
+        // No need to use prev, use tmp to store cur2.next
+        ListNode cur1 = head;
+        ListNode cur2 = last.next;
+        while (cur1 != null && cur2 != null) {
+            ListNode n = cur2.next; // tmp
+            cur2.next = cur1.next;
+            cur1.next = cur2;
+            cur1 = cur2.next;
+            cur2 = n;
+        }
     }
 }

@@ -17,9 +17,15 @@ Soltion: DP
 dp[0][0] = 1. T and S are empty
 dp[i][0] = 0.  S is empty
 dp[0][i] = 1, T is empty
-if[i][j-1] already matched, count is at least dp[i][j-1]
-Try to match T[i-1] and S[j-1]
+i -> T, j -> S
+(1) if[i][j-1] already matched, count dp[i][j] is at least dp[i][j-1]
+    [ABC] <=> [ABC]|C
+(2) Try to match T[i-1] and S[j-1], if T[i-1] == S[j-1]
+    dp[i-1][j-1] could be included.
+    [AB]|C <=> [ABC]|C
 dp[i][j] = dp[i][j - 1] + (T[i-1] == S[j-1] ? dp[i-1][j-1] : 0)
+
+
 
 */
 public class Solution {
