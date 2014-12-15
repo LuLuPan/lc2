@@ -57,4 +57,58 @@ public class Solution {
 
         return dummy.next;
     }
+
+
+    // Solution:
+    // min heap
+    class HeapNode implements Comparable<HeapNode> {
+        private ListNode node;
+        public HeapNode(ListNode node) {
+            this.node = node;
+        }
+
+        public int compareTo(HeapNode a) {
+            return this.node.val > a.node.val ? 1 : (this.node.val == a.node.val ? 0 : -1);
+        }
+    }
+
+    public ListNode mergeKLists(List<ListNode> lists) {
+        if (lists == null || lists.size() == 0)
+            return null;
+        ListNode curNode = new ListNode(-1);
+        ListNode head = curNode;
+        // first node from each list build the min heap
+        PriorityQueue<HeapNode> minHeap = new PriorityQueue<HeapNode>();
+        Iterator<ListNode> it = lists.iterator();
+        while (it.hasNext()) {
+            ListNode node = it.next();
+            minHeap.add(new HeapNode(node));
+        }
+
+        while (minHeap.size() != 0) {
+            curNode.next = minHeap.poll().node;
+            curNode = curNode.next;
+            if (curNode != null && curNode.next != null) {
+                minHeap.add(new HeapNode(curNode.next));
+            }
+        }
+
+        return head.next;
+    }
+
+    public static void main(String[] args) {
+        MergeKList rk = new MergeKList();
+        List<ListNode> lists = new ArrayList<ListNode>();
+        ListNode node1 = rk.new ListNode(1);
+        ListNode node2 = rk.new ListNode(2);
+        ListNode node3 = rk.new ListNode(3);
+        ListNode node4 = rk.new ListNode(4);
+
+        node1.next = node2;
+        lists.add(node1);
+        node3.next = node4;
+        lists.add(node3);
+
+        rk.mergeKLists(lists);
+    }
 }

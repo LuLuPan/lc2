@@ -40,3 +40,42 @@ public class Solution {
         return sb.toString();
     }
 }
+
+public class Solution {
+    public String multiply(String num1, String num2) {
+        // no need to consider sign since non-negative
+        int m = num1.length();
+        int n = num2.length();
+        if (m == 0 || n == 0) return null;
+        int[] result = new int[m + n];
+        
+        // store output from right to left
+        // LSB to MSB
+        // make index more concise
+        for (int i = m - 1; i >= 0; i--) {
+            int carrie = 0;
+            int a = num1.charAt(i) - '0';
+            for (int j = n - 1; j >= 0; j--) {
+                int b = num2.charAt(j) - '0';
+                int val = a * b + carrie;
+                result[i + 1 + j] += val;
+                carrie = result[i + 1 + j] / 10;
+                result[i + 1 + j] %= 10;
+            }
+            
+            result[i] += carrie;
+        }
+        
+        int i = 0;
+        while ((i < m + n) && result[i] == 0)
+            i++;
+        if (i == m + n) return "0";
+        StringBuilder sb = new StringBuilder();
+        while (i < m + n) {
+            sb.append(result[i++]);
+        }
+        
+        return sb.toString();
+    }
+}
+

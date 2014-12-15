@@ -37,3 +37,35 @@ public class Solution {
         return result;
     }
 }
+
+
+/*
+if transaction is k times other than only two times
+Use general DP solition with local optimal result
+and global optimal result
+*/
+
+public class Solution {
+    public int maxProfit(int[] prices, int k) {
+        if (prices.length <= 1) return 0;
+        int len = prices.length;
+        int[][] local = new int[len][k + 1];
+        int[][] global = new int[len][k + 1];
+       
+        for (int i = 1; i < len; i++) {
+            int diff = prices[i] - prices[i - 1];
+            
+            for (int j = 1; j <= k; j++) {
+                // local[i][j]: max profit till i day, j transactions, where there is transaction happening on i day
+                // local[i-1][j] must include transaction on i-1 day, so plus today's transaction will increase number
+                // of transactions, since p[i - 1] - p[i-2] + p[i] - p[i - 1] is the same as p[i]-p[i-2]
+                local[i][j] = Math.max(global[i - 1][j - 1] + Math.max(diff, 0), 
+                                           local[i - 1][j] + diff);
+                // global[i][j]: max profit across i days, j transactions                             
+                global[i][j] = Math.max(global[i - 1][j], local[i][j]);                
+            }
+        }
+        
+        return global[len - 1][k];
+    }
+}
