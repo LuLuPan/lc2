@@ -43,27 +43,25 @@ public class Solution {
         // cur is the first node after reversing range, so it could be
         // null. count is initiated as 0.
         int count = 0;
+        // Note 1: true
         while (true) {
-        	// Error: need to ignore count == 0
-        	if (count > 0 && count % k == 0) {
-
-        		ListNode prev1 = prev.next;
-        		ListNode cur1 = prev1.next;
-        		ListNode end = cur;
-        		while (cur1 != end) {
-        			prev1.next = cur1.next;
-        			cur1.next = prev.next;
-        			prev.next = cur1;
-        			cur1 = prev1.next;
-        		}
-        		// move prev forward for next range
-        		prev = prev1;
-        	}
-        	// if cur is null, means no more nodes
-            if (cur == null)
-                break;
-        	cur = cur.next;
-        	count++;
+            // Note 2: count = 0 need to be checked intially
+            if (count > 0 && count % k == 0) {
+                ListNode p = prev.next;
+                ListNode q = p.next;
+                while (q != cur) {
+                    p.next = q.next;
+                    q.next = prev.next;
+                    prev.next = q;
+                    q = p.next;
+                }
+                prev = p;
+            }
+            
+            // Note 2
+            if (cur == null) break;
+            count++;
+            cur = cur.next;
         }
 
         return dummy.next;

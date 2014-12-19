@@ -10,40 +10,27 @@ Corner case:
 So need default for switch state
 */
 public class Solution {
+    // HashMap will be easy to extend to more pair types
+    private final HashMap<Character, Character> map = 
+        new HashMap<Character, Character>() {{
+            put(')', '(');
+            put(']', '[');
+            put('}', '{');
+        }};
     public boolean isValid(String s) {
-        int n = s.length();
-        if (n % 2 != 0) return false;
+        if (s == null || s.length() == 0) return false;
         Stack<Character> stack = new Stack<Character>();
-
-        int i = 0;
-
-        while (i < n) {
-        	char c = s.charAt(i++);
-        	switch (c) {
-        		case ')':
-                    if (stack.empty() || '(' != stack.peek())
-                    	return false;
-                    stack.pop();
-                break;
-                case ']':
-                    if (stack.empty() || '[' != stack.peek())
-                    	return false;
-                    stack.pop();
-                break;
-                case '}':
-                    if (stack.empty() || '{' != stack.peek())
-                    	return false;
-                    stack.pop();
-                break;
-                default:
-                    stack.push(c);
-                break;
-                
-        	}
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                if (stack.isEmpty() || stack.peek() != map.get(c))
+                    return false;
+                else stack.pop();
+            } else {
+                stack.push(c);
+            }
         }
-
-        if (stack.size() > 0)
-        	return false;
-        return true;
+        
+        return stack.isEmpty();
     }
 }

@@ -8,41 +8,35 @@ or null if needle is not part of haystack.
 2. Rolling Hash O(2*m + n) => O(m + n)
 */
 public class Solution {
-    public String strStr(String haystack, String needle) {
-        if (haystack == null || needle == null) return null;
-        if (needle.length() == 0) return haystack;
-        if (haystack.length() < needle.length()) return null;
-
-        int index = -1;
-        // need j <= haystack.length() - needle.length()
-        // or hi may overflow haystack at the end
-        // missipi and isipi
-    	for (int j = 0; j <= haystack.length() - needle.length(); j++) {
-    	    int hi = j;
-    		for (int i = 0; i < needle.length(); i++) {
-    			if (needle.charAt(i) == haystack.charAt(hi)) {
-    				if (index == -1) index = hi;
-    				hi++; // may overflow haystack
-    			}
-    			else {
-    				index = -1;
-    				break;
-    			}
-    		}
-
-    		if (index >= 0)
-    			break;
-    	}
-
-        if (index == -1) return null;
-
-        return haystack.substring(index);   
+    // corner case: "", "" return 0
+    public int strStr(String haystack, String needle) {
+        if (haystack == null) return -1;
+        if (needle == null) return 0;
+        
+        int start = -1;
+        int m = haystack.length();
+        int n = needle.length();
+        if (m < n) return -1;
+        
+        for (int i = 0; i <= m - n; i++) {
+            int j = 0;
+            for (; j < n; j++) {
+                if (haystack.charAt(i + j) != needle.charAt(j))
+                    break;
+            }
+            if (j == n) {
+                start = i;
+                break;
+            }
+        }
+        
+        return start;
     }
 }
 
 
 
-
+//Rolling hash
 public class Solution {
     private int generateHashBase(int len) {
         int base = 29;

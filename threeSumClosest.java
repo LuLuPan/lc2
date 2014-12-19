@@ -40,3 +40,32 @@ You may assume that each input would have exactly one solution.
         return result;
     }
 }
+
+public class Solution {
+    public int threeSumClosest(int[] num, int target) {
+        if (num == null || num.length < 3)
+            return 0;
+        Arrays.sort(num);
+        int n = num.length;
+        int result = 0;
+        int minGap = Integer.MAX_VALUE;
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+            while (left < right) {
+                int sum = num[i] + num[left] + num[right];
+                // Error: Need to use abs
+                int gap = Math.abs(target - sum);
+                if (gap < minGap) {
+                    minGap = gap;
+                    result = sum;
+                } else if (sum < target)
+                    left++;
+                else right--;
+            }
+        }
+        
+        
+        return result;
+    }
+}

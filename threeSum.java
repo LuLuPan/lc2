@@ -15,6 +15,7 @@ The solution set must not contain duplicate triplets.
 
 Solution: Sort and Move toward middle from left and right
           And use a set to deduplication
+Time complexity: O(n^2)
  */
  public class Solution {
     public List<List<Integer>> threeSum(int[] num) {
@@ -27,10 +28,10 @@ Solution: Sort and Move toward middle from left and right
         for (int i = 0; i < n - 1; i++) {
         	int left = i + 1;
         	int right = n - 1;
-
+            int target = -num[i];
         	while (left < right) {
         		int sum = num[left] + num[right];
-        		if (sum + num[i] == 0) {
+        		if (sum == target) {
         			List<Integer> triple = new ArrayList<Integer>();
         			triple.add(num[i]);
         			triple.add(num[left]);
@@ -44,7 +45,7 @@ Solution: Sort and Move toward middle from left and right
         			left++;
         			right--;
         		}
-        		else if (sum + num[i] < 0)
+        		else if (sum < target)
         			left++;
         		else
         			right--;

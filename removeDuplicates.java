@@ -14,6 +14,9 @@ public class Solution {
     public int removeDuplicates(int[] A) {
         int n = A.length;
         if (n < 2) return n;
+        // index points to the position of the firse element
+        // with the same value, when a different value found,
+        // ++index to leave only one this element
         int index = 0;
         for (int i = 1; i < n; i++) {
         	if (A[index] != A[i])

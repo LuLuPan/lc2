@@ -65,34 +65,28 @@ public class Solution {
         int n = A.length;
         if (n == 0) return result;
 
-        int start = 0;
-        int end = n - 1;
-        // Error: not start <= end, or may infinite loop
-        while (start < end) {
-            int middle = start + (end - start) / 2;
-            if (A[middle] < target)
-                start = middle + 1;
-            else
-                end = middle; // not middle - 1
-        }
+        int start = search(0, A.length - 1, target, A);
 
         if (A[start] != target)
             return result;
         int low = start;
-        start = 0;
-        end = n - 1;
-        while (start < end) {
-            int middle = start + (end - start) / 2;
-            if (A[middle] < target + 1)
-                start = middle + 1;
-            else
-                end = middle; // not middle - 1
-        }
+        start = search(low, A.length - 1, target + 1, A);
 
         int high = A[start] == target ? start : start - 1;
         result[0] = low;
         result[1] = high;
 
         return result;
+    }
+    
+    private int search(int start, int end, int target, int[] A) {
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (A[mid] < target)
+                start = mid + 1;
+            else end = mid;
+        }
+        
+        return start;
     }
 }

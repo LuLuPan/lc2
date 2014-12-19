@@ -31,9 +31,10 @@ public class Solution {
         }
 
         // still need to compare with target to determine final position
+        // target doesn't exist, start is lower bound
         if (A[start] < target)
             return start + 1;
-
+        // target exist
         return start;
     }
 }

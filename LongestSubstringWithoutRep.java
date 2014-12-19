@@ -25,11 +25,15 @@ public class Solution {
             // Error: should be >=
             //        should be >= start, since index will bigger than 0
             //        even there is no dup of this indexed char in cur substr
+            // Note 1: And cannot use indicies[c] != -1, otherwise need to reset all
+            // indices[c] from dup to start to -1
             if (indicies[index] >= start) {
                 //dup found
                 result = Math.max(result, i - start);
+                // update start index
                 start = indicies[index] + 1;
             }
+            // Note 2: keep updating c's index
             indicies[index] = i;
         }
 

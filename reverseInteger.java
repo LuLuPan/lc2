@@ -6,12 +6,17 @@ Example2: x = -123, return -321
 */
 public class Solution {
     public int reverse(int x) {
-        int r = 0;
+        if (x == Integer.MIN_VALUE) return 0;
+        int y = 0;
+        int sign = x < 0 ? -1 : 1;
+        x = Math.abs(x);
         while (x != 0) {
-            r = r * 10 + x % 10;
+            if (y > Integer.MAX_VALUE / 10 || (y == Integer.MAX_VALUE / 10) && (x % 10 > Integer.MAX_VALUE % 10))
+                return 0;
+            y = y * 10 + x % 10;
             x /= 10;
         }
-        
-        return r;
+
+        return y * sign;
     }
 }

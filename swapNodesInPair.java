@@ -20,13 +20,13 @@ Your algorithm should use only constant space. You may not modify the values
  */
 public class Solution {
     public ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) return head;
+        if (head == null) return head;
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode cur = head;
         ListNode prev = dummy;
 
-        // case to exam: 1->2->null
+        // Error: case to exam: 1->2->null
         while (cur != null && cur.next != null) {
         	cur = cur.next;
         	prev.next.next = cur.next;

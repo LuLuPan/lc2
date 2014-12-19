@@ -16,55 +16,49 @@ The solution set must not contain duplicate quadruplets.
 
 */
 public class Solution {
-	public class Pair {
-		public int left;
-		public int right;
-		public Pair(int l, int r) {
-			this.left = l;
-			this.right = r;
-		}
-	}
-
+    class Pair {
+        public int first;
+        public int second;
+        public Pair(int a, int b) {
+            this.first = a;
+            this.second = b;
+        }
+    }
+    
     public List<List<Integer>> fourSum(int[] num, int target) {
-    	List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (num == null || num.length == 0) return result;
         int n = num.length;
-        if (n < 4) return result;
         Arrays.sort(num);
-        HashMap<Integer, List<Pair>> twoSum = new HashMap<Integer, List<Pair>>();
+        HashMap<Integer, List<Pair>> map = new HashMap<Integer, List<Pair>>();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int sum = num[i] + num[j];
+                if (!map.containsKey(sum)) {
+                    map.put(sum, new ArrayList<Pair>());
+                }
+                map.get(sum).add(new Pair(i, j));
+            }
+        }
         HashSet<List<Integer>> set = new HashSet<List<Integer>>();
         for (int i = 0; i < n - 1; i++) {
-        	for (int j = i + 1; j < n; j++) {
-        		int sum = num[i] + num[j];
-        		if (twoSum.containsKey(sum))
-        			twoSum.get(sum).add(new Pair(i, j));
-        		else {
-        			List<Pair> list = new ArrayList<Pair>();
-        			list.add(new  Pair(i, j));
-        			twoSum.put(sum, list);
-        		}
-        	}
+            for (int j = i + 1; j < n; j++) {
+                int diff = target - num[i] - num[j];
+                if (map.containsKey(diff)) {
+                    for (Pair p : map.get(diff)) {
+                        if (i <= p.second) continue;
+                        List<Integer> quad = new ArrayList<Integer>();
+                        quad.add(num[p.first]);
+                        quad.add(num[p.second]);
+                        quad.add(num[i]);
+                        quad.add(num[j]);
+                        if (set.add(quad))
+                            result.add(quad);
+                    }
+                }
+            }
         }
-
-        for (int i = 0; i < n - 1; i++) {
-        	for (int j = i + 1; j < n; j++) {
-        		int delta = target - num[i] - num[j];
-        		if (twoSum.containsKey(delta)) {
-        			for (Pair pair : twoSum.get(delta)) {
-        				if (i <= pair.right)
-        					// suppose [i, j] is at right of pair
-        					continue;
-        				List<Integer> quand = new ArrayList<Integer>();
-        				quand.add(num[pair.left]);
-        				quand.add(num[pair.right]);
-        				quand.add(num[i]);
-        				quand.add(num[j]);
-        				if (set.add(quand))
-        					result.add(quand);
-        			}
-        		}
-        	}
-        }
-
+        
         return result;
     }
 }

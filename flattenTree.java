@@ -76,3 +76,33 @@ public class Solution {
         root.left = null;
     }
 }
+
+// Recursive optimized
+public class Solution {
+    public void flatten(TreeNode root) {
+        if(root == null) return;
+        doFlattern(root);
+    }
+    
+    /**
+     * doFlattern returns leave node of currently flattened subtree
+     * as an optimization.
+     * In this way, no need to find the leaves by while loop
+     * when exist recursion
+     */ 
+    private TreeNode doFlattern(TreeNode root) {
+        if (root == null) return null;
+        if (root.left == null && root.right == null) return root;
+        TreeNode l = doFlattern(root.left);
+        TreeNode r = doFlattern(root.right);
+        if (l == null) return r;
+        l.right = root.right;
+        root.right = root.left;
+        root.left = null;
+        
+        // Note: if r is null means root has no right subtree
+        // so l should be returned as leave node for current
+        // flatterned subtree
+        return r == null ? l : r;
+    }
+}

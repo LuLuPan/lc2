@@ -41,7 +41,7 @@ public class Solution {
     	// Notice: m could be smaller than k / 2
     	int ia = Math.min(m, k / 2);
     	int ib = k - ia;
-
+        // Note: need to minus - 1 since k is the kth, not index
     	if (A[startA + ia - 1] > B[startB + ib - 1])
     		// B's first k/2 will be discarded, and only check A's first k/2
     		return findKth(A, B, startA, startA + ia - 1, 
@@ -50,6 +50,6 @@ public class Solution {
     		// A's first k/2 will be discarded, and only check B's first k/2
     		return findKth(A, B, startA + ia, endA, 
     			startB, startB + ib - 1, k - ia);
-    	else return A[ia - 1];
+    	else return A[startA + ia - 1];
     }
 }

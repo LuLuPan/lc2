@@ -20,6 +20,7 @@ public class Solution {
     	// negative number cannot be palindrome
         if (x < 0) return false;
         int div = 1;
+        // Note: condition
         while (x / div >= 10)
         	div *= 10;
 
@@ -27,7 +28,8 @@ public class Solution {
         	if (x % 10 != x / div)
         		return false;
         	x = (x % div) / 10;
-        	// Error: div should / 100 other than 10.
+        	// Error: div should / 100 other than 10 since msb and lsb two bits
+            // removed
         	div /= 100; 
         }
 

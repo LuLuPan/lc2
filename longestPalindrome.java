@@ -4,31 +4,37 @@ You may assume that the maximum length of S is 1000, and there exists one
 unique longest palindromic substring.
 */
 public class Solution {
+    // DP
+    // f[j, i]: 1) true if i == j
+    //          2) true if s[i] == s[j], i - j < 2
+    //          3) true if s[i] == s[j] && f(j+1, i-1), i - j >= 2
     public String longestPalindrome(String s) {
-        if (s.length() <= 1) return s;
         int n = s.length();
+        if (n == 0 || n == 1) return s;
+        String result = new String();
+
         boolean[][] dp = new boolean[n][n];
+        
+        int start = -1;
         int maxLen = 1;
-
-        dp[0][0] = true;
-        int left = 0;
-        int right = 0;
         for (int i = 0; i < n; i++) {
-        	dp[i][i] = true;
-        	for (int j = 0; j < i; j++) {
-        	    // dp[i + 1][j - 1] should be calculated before dp[i][j]
-        		if (((i - j) < 2 && s.charAt(i) == s.charAt(j)) ||
-        			(dp[i - 1][j + 1] && s.charAt(i) == s.charAt(j))) {
-        			dp[i][j] = true;
+            dp[i][i] = true;
+            for (int j = i - 1; j >= 0; j--) {
+                if (s.charAt(j) == s.charAt(i) && (j == i - 1 || 
+                    (i - j >= 2 && dp[j + 1][i - 1] == true))) {
+                    dp[j][i] = true;
                     if (i - j + 1 > maxLen) {
-                    	maxLen = i - j + 1;
-                        left = j;
-                        right = i;
+                        maxLen = i - j + 1;
+                        start = j;
                     }
-        		}
-         	}
+                }
+            }
         }
-
-        return s.substring(left, right + 1);
+        
+        return s.substring(start, start + maxLen);
     }
 }
+
+// Solution 2
+// Manacher’s Algorithm
+// http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html

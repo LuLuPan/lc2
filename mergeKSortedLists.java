@@ -57,58 +57,89 @@ public class Solution {
 
         return dummy.next;
     }
+}
 
-
-    // Solution:
-    // min heap
-    class HeapNode implements Comparable<HeapNode> {
-        private ListNode node;
-        public HeapNode(ListNode node) {
-            this.node = node;
-        }
-
-        public int compareTo(HeapNode a) {
-            return this.node.val > a.node.val ? 1 : (this.node.val == a.node.val ? 0 : -1);
-        }
-    }
-
+// minHeap
+// O(nklogn) + O(k)
+public class Solution {
     public ListNode mergeKLists(List<ListNode> lists) {
-        if (lists == null || lists.size() == 0)
-            return null;
-        ListNode curNode = new ListNode(-1);
-        ListNode head = curNode;
-        // first node from each list build the min heap
-        PriorityQueue<HeapNode> minHeap = new PriorityQueue<HeapNode>();
+        int n = lists.size();
+        if (n == 0) return null;
+        if (n == 1) return lists.get(0);
+        
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<ListNode>(lists.size(), 
+            new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode l1, ListNode l2) {
+                return l1.val - l2.val; 
+            }
+        });
+        
         Iterator<ListNode> it = lists.iterator();
         while (it.hasNext()) {
             ListNode node = it.next();
-            minHeap.add(new HeapNode(node));
+            if (node != null)
+                minHeap.offer(node);
         }
-
-        while (minHeap.size() != 0) {
-            curNode.next = minHeap.poll().node;
-            curNode = curNode.next;
-            if (curNode != null && curNode.next != null) {
-                minHeap.add(new HeapNode(curNode.next));
+        
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (!minHeap.isEmpty()) {
+            ListNode node = minHeap.poll();
+            if (node != null) {
+                cur.next = node;
+                cur = cur.next;
+                if (node.next != null)
+                    minHeap.offer(node.next);
             }
         }
-
-        return head.next;
+        
+        
+        return dummy.next;
     }
+}
 
-    public static void main(String[] args) {
-        MergeKList rk = new MergeKList();
-        List<ListNode> lists = new ArrayList<ListNode>();
-        ListNode node1 = rk.new ListNode(1);
-        ListNode node2 = rk.new ListNode(2);
-        ListNode node3 = rk.new ListNode(3);
-        ListNode node4 = rk.new ListNode(4);
 
-        node1.next = node2;
-        lists.add(node1);
-        node3.next = node4;
-        lists.add(node3);
-
-        rk.mergeKLists(lists);
+// divide and conquer
+// O(knlogn) + O(1)
+public class Solution {
+    public ListNode mergeKLists(List<ListNode> lists) {
+        int n = lists.size();
+        if (n == 0) return null;
+        if (n == 1) return lists.get(0);
+        
+        int end = lists.size() - 1;
+        while (end > 0) {
+            // Note: end doesn't need update
+            int begin = 0;
+            while (begin < end) {
+                // inplace
+                lists.set(begin, mergeTwo(lists.get(begin), lists.get(end)));
+                begin++;
+                end--;
+            }
+        }
+        
+        return lists.get(0);
     }
+    
+    private ListNode mergeTwo(ListNode l1, ListNode l2) {
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        
+        cur.next = l1 != null ? l1 : l2;
+        return dummy.next;
+    } 
 }
