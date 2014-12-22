@@ -17,18 +17,20 @@ Solution: Greedy as Jump Game I
 */
 public class Solution {
     public int jump(int[] A) {
-        if (A.length == 0) return 0;
-        int reach = 0;
-        int step = 0;
-        int last = 0;
-        for (int i = 0; i < n; i++) {
+        if (A == null || A.length == 0) return 0;
+        int n = A.length;
+        int steps = 0, reach = 0, last = 0;
+        // check raechability
+        for (int i = 0; i < n && i <= reach; i++) {
             if (i > last) {
+                steps++;
                 last = reach;
-                step++;
             }
             reach = Math.max(reach, A[i] + i);
         }
-
-        return step;
+        // check raechability
+        if (reach < n - 1) return 0;
+        
+        return steps;
     }
 }

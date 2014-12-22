@@ -19,10 +19,8 @@ public class Solution {
         if (n == 0) return result;
 
         Arrays.sort(num);
-        boolean[] visited = new boolean[n];
-        List<Integer> permute = new ArrayList<Integer>();
 
-        dfs(num, permute, visited, result);
+        dfs(num, new ArrayList<Integer>(), new boolean[n], result);
         return result;
     }
 

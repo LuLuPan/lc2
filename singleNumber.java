@@ -10,11 +10,11 @@ Solution: A XOR A = 0, A XOR B XOR A = B.
 */
 public class Solution {
     public int singleNumber(int[] A) {
+        if (A == null || A.length == 0) return -1;
         int result = 0;
-        for (int i = 0; i < A.length; i++) {
-        	result ^= A[i];
-        }
-
+        for (int i : A)
+            result ^= i;
+            
         return result;
     }
 }

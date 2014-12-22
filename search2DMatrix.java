@@ -16,9 +16,8 @@ Consider the following matrix:
 ]
 Given target = 3, return true.
 
-Solution: Binary search to find lower bound
+Solution: Binary search
 */
-
 public class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length;
@@ -28,18 +27,14 @@ public class Solution {
 
         int start = 0;
         int end = m * n - 1;
-
-        while (start < end) {
+        while (start <= end) {
             int mid = start + (end - start) / 2;
-
-            if (matrix[mid / n][mid % n] < target)
+            if (matrix[mid / n][mid % n] == target)
+                return true;
+            else if (matrix[mid / n][mid % n] < target)
                 start = mid + 1;
-            else
-                end = mid;
+            else end = mid - 1;
         }
-
-        if (matrix[start / n][start % n] != target)
-            return false;
-        return true;
+        return false;
     }
 }

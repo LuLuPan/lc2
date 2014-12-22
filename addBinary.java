@@ -10,23 +10,19 @@ public class Solution {
     public String addBinary(String a, String b) {
         if (a == null || a.length() == 0) return b;
         if (b == null || b.length() == 0) return a;
-
-        StringBuilder result = new StringBuilder();
-        int carry = 0;
-        int i = a.length() - 1;
-        int j = b.length() - 1;
+        StringBuilder sb = new StringBuilder();
+        int carrier = 0;
+        int i = a.length() - 1, j = b.length() - 1;
         while (i >= 0 || j >= 0) {
-        	int val = (i < 0 ? 0 : (a.charAt(i) - '0')) + 
-        	          (j < 0 ? 0 : (b.charAt(j) - '0')) + carry;
-        	carry = val / 2;
-        	val %= 2;
-        	result.insert(0, val);
-        	i--;
-        	j--;
+            int sum = (i >= 0 ? a.charAt(i--) - '0' : 0) +
+                      (j >= 0 ? b.charAt(j--) - '0' : 0) +
+                      carrier;
+            carrier = sum / 2;
+            sb.append(sum % 2);
         }
-
-        if (carry == 1)
-        	result.insert(0, 1);
-        return result.toString();
+        
+        if (carrier != 0)
+            sb.append(carrier);
+        return sb.reverse().toString();
     }
 }

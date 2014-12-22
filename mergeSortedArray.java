@@ -28,6 +28,8 @@ public class Solution {
                 A[k--] = B[j--];
         }
 
+        // Note: cannot write as while (k >= 0)
+        // since B could be empty and then dead loop
         while (j >= 0)
             A[k--] = B[j--];
     }

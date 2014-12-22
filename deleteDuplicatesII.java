@@ -19,7 +19,7 @@ Given 1->1->1->2->3, return 2->3.
  */
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null || head.next == null) return head;
+        if (head == null) return head;
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
         ListNode prev = dummy;
@@ -42,6 +42,7 @@ public class Solution {
             cur = cur.next;
         }
         
+        // Note!!!: 1->1
         prev.next = cur;
         return dummy.next;
     }

@@ -16,15 +16,17 @@ Both the left and right subtrees must also be binary search trees.
  *     TreeNode(int x) { val = x; }
  * }
  */
+
 public class Solution {
     public boolean isValidBST(TreeNode root) {
-        return validBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        // Note: doesn't work if node value is MAX or MIN
+        return validBST(root, null, null);
     }
 
-    private boolean validBST(TreeNode root, int min, int max) {
+    private boolean validBST(TreeNode root, Integer min, Integer max) {
     	if (root == null) return true;
 
-    	return ((root.val > min && root.val < max) &&
+    	return (((min == null || root.val) > min && (max == null || root.val < max)) &&
     	       validBST(root.left, min, root.val) &&
     	       validBST(root.right, root.val, max));
     }

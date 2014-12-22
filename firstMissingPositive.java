@@ -24,6 +24,7 @@ public class Solution {
 
         for (int i = 0; i < n; i++) {
             while (A[i] != i + 1) {
+                // Note: if A[i] == A[A[i] - 1], no need to swap
                 if (A[i] <= 0 || A[i] > n || A[i] == A[A[i] - 1])
                     break; 
                 //swap A[i] and A[A[i] - 1]

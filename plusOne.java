@@ -13,21 +13,23 @@ Solution: n + 1 space only needed when carry is 1 at the end, which will
 */
 public class Solution {
     public int[] plusOne(int[] digits) {
+        if (digits == null || digits.length == 0)
+            return null;
         int n = digits.length;
         int[] result = new int[n + 1];
-        if (n == 0) return result;
-        // Error: Should be 1 since plus one
-        int carrier = 1;
-        for (int i = n; i >= 0; i--) {
-        	int val = (i > 0 ? digits[i - 1] : 0) + carrier;
-        	carrier = val / 10;
-        	val %= 10;
-        	result[i] = val;
+        int carry = 0;
+        digits[n - 1] += 1;
+        for (int i = n - 1; i >= 0; i--) {
+            result[i + 1] = digits[i] + carry;
+            carry = result[i + 1] / 10;
+            result[i + 1] %= 10;
         }
-
-        // only n space needed
-        if (result[0] == 0)
-        	return Arrays.copyOfRange(result, 1, result.length);
+        
+        if (carry != 0) {
+            result[0] = 1;
+        } else {
+            result = Arrays.copyOfRange(result, 1, result.length);
+        }
         return result;
     }
 }

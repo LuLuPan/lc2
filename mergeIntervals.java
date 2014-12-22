@@ -28,28 +28,29 @@ Solution:
 public class Solution {
     public List<Interval> merge(List<Interval> intervals) {
         List<Interval> result = new ArrayList<Interval>();
-        if (intervals.size() == 0)
+        if (intervals == null || intervals.size() == 0)
             return result;
-
         Collections.sort(intervals, new Comparator<Interval>() {
-            public int compare(Interval a, Interval b) {
-                return a.start > b.start ? 1 : (a.start == b.start ? 0 : -1);        
-            }
+           public int compare(Interval a, Interval b) {
+               return a.start - b.start;
+           } 
         });
-
-        Interval curItv = intervals.get(0);
-        for (int i = 1; i < intervals.size(); i++) {
-            if (intervals.get(i).start <= curItv.end) {
-                // merge overlap
-                curItv.start = Math.min(curItv.start, intervals.get(i).start);
-                curItv.end = Math.max(curItv.end, intervals.get(i).end);
+        
+        Iterator<Interval> it = intervals.iterator();
+        Interval newInterval = it.next();
+        while (it.hasNext()) {
+            Interval itv = it.next();
+            if (itv.start > newInterval.end) {
+                result.add(newInterval);
+                newInterval = itv;
             } else {
-                result.add(curItv);
-                curItv = intervals.get(i);
+                newInterval.start = Math.min(itv.start, newInterval.start);
+                newInterval.end = Math.max(itv.end, newInterval.end);
             }
         }
-
-        result.add(curItv);
+        
+        result.add(newInterval);
+        
         return result;
     }
 }

@@ -58,6 +58,8 @@ public class Solution {
             for (int j = n - 1; j >= 0; j--) {
                 int b = num2.charAt(j) - '0';
                 int val = a * b + carrie;
+                // Note: Should be += other than =, otherwise may overwrite
+                // intermediate result
                 result[i + 1 + j] += val;
                 carrie = result[i + 1 + j] / 10;
                 result[i + 1 + j] %= 10;

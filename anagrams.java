@@ -17,32 +17,28 @@ Solution:
 */
 public class Solution {
     public List<String> anagrams(String[] strs) {
-    	List<String> result = new ArrayList<String>();
-        if (strs.length <= 1) return result;
-
-        HashMap<String, List<String>> strMap = new HashMap<String, List<String>>();
-        for (int i = 0; i < strs.length; i++) {
-        	char[] charArray = strs[i].toCharArray();
-        	Arrays.sort(charArray);
-        	String sortedStr = new String(charArray);
-        	if (!strMap.containsKey(sortedStr)) {
-        		List<String> anagram = new ArrayList<String>();
-        		anagram.add(strs[i]);
-        		strMap.put(sortedStr, anagram);
-        	} else {
-        		// find anagram
-        		strMap.get(sortedStr).add(strs[i]);
-        	}
+        List<String> result = new ArrayList<String>();
+        if (strs == null || strs.length < 2)
+            return result;
+        HashMap<String, List<String>> map = new HashMap<String, List<String>>();
+        for (String str : strs) {
+            char[] arr = str.toCharArray();
+            Arrays.sort(arr);
+            String newStr = new String(arr);
+            if (!map.containsKey(newStr)) {
+                map.put(newStr, new ArrayList<String>());
+            }
+            map.get(newStr).add(str);
         }
-
-        Iterator iter = strMap.values().iterator();
-        while (iter.hasNext()) {
-        	List<String> anagram = (ArrayList<String>)iter.next();
-        	// Error: should be > 1 other than > 0, at least two
-        	if (anagram.size() > 1)
-        		result.addAll(anagram);
+        
+        Iterator<List<String>> it = map.values().iterator();
+        while (it.hasNext()) {
+            List<String> list = (ArrayList<String>)it.next();
+            // Error: should be > 1 other than > 0, at least two
+            if (list.size() > 1)
+                result.addAll(list);
         }
-
+        
         return result;
     }
 }

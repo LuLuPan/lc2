@@ -36,26 +36,22 @@ public class Solution {
         }
         if (newInterval == null)
             return intervals;
-
-        ListIterator<Interval> li = intervals.listIterator();
-        Interval start = null;
-        Interval end = null;
-        while (li.hasNext()) {
-            Interval itv = li.next();
-            if (itv.end < newInterval.start)
-                result.add(itv);
-            else if (itv.start > newInterval.end) {
+            
+        Iterator<Interval> it = intervals.iterator();
+        while (it.hasNext()) {
+            Interval cur = it.next();
+            if (newInterval.start > cur.end)
+                result.add(cur);
+            else if (newInterval.end < cur.start) {
                 result.add(newInterval);
-                newInterval = itv;
+                newInterval = cur;
             } else {
-                // begin overlaps
-                newInterval.start = Math.min(newInterval.start, itv.start);
-                newInterval.end = Math.max(newInterval.end, itv.end);
+                newInterval.start = Math.min(newInterval.start, cur.start);
+                newInterval.end = Math.max(newInterval.end, cur.end);
             }
         }
-
+        
         result.add(newInterval);
-
         return result;
     }
 }

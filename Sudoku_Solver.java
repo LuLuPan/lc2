@@ -13,44 +13,43 @@ public class Solution {
         if (board.length != 9 || board[0].length != 9) return;
         solvingSudoku(board);
     }
-
+    
     private boolean solvingSudoku(char[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board[i][j] == '.') {
                     for (int k = 0; k < 9; k++) {
                         board[i][j] = (char)(k + '1');
-                        if (isValid(board, i, j) && solvingSudoku(board))
+                        if (check(board, i, j) && solvingSudoku(board))
                             return true;
-                        board[i][j] = '.';
                     }
+                    board[i][j] = '.';
                     return false;
                 }
             }
         }
+        
         return true;
     }
-
-    private boolean isValid(char[][] board, int x, int y) {
-        // check row
+    
+    private boolean check(char[][] board, int y, int x) {
         for (int i = 0; i < 9; i++) {
-            if ((board[x][i] == board[x][y]) && (i != y))
+            if (board[i][x] == board[y][x] && i != y)
                 return false;
         }
-        // check col
+        
         for (int i = 0; i < 9; i++) {
-            if ((board[i][y] == board[x][y]) && (i != x))
+            if (board[y][i] == board[y][x] && i != x)
                 return false;
         }
-
-        // check blocks
-        for (int r = (x / 3) * 3; r < (x / 3) * 3 + 3; r++) {
-            for (int c = (y / 3) * 3; c < (y / 3) * 3 + 3; c++) {
-                if ((board[r][c] == board[x][y]) && (r != x || c != y))
+        
+        for (int i = (y / 3) * 3; i < (y / 3) * 3 + 3; i++) {
+            for (int j = (x / 3) * 3; j < (x / 3) * 3 + 3; j++) {
+                if (board[i][j] == board[y][x] && (i != y || j != x))
                     return false;
             }
         }
-
+        
         return true;
     }
 }

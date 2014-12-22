@@ -19,14 +19,18 @@ Corner case: [-1]
 */
 public class Solution {
     public int maxSubArray(int[] A) {
-        // since may compare with negative, use int_min other than 0
-        int max_sum = Integer.MIN_VALUE;
-        int f = 0; //f(j)
-        for (int i = 0; i < n; i++) {
+        if (A == null || A.length == 0)
+            return 0;
+        int n = A.length;
+        // global
+        int max = A[0];
+        // local
+        int f = A[0];
+        for (int i = 1; i < n; i++) {
             f = Math.max(f + A[i], A[i]);
-            max_sum = Math.max(max_sum, f);
+            max = Math.max(max, f);
         }
-
-        return max_sum;
+        
+        return max;
     }
 }

@@ -40,6 +40,7 @@ Check prev and cur val every time before updated.
  *     TreeNode(int x) { val = x; }
  * }
  */
+// Morris
 public class Solution {
     public void recoverTree(TreeNode root) {
         if (root ==  null) return;
@@ -89,5 +90,42 @@ public class Solution {
     			pair.set(1, cur);
     		}
     	}
+    }
+}
+
+// Inorder
+// http://blog.csdn.net/linhuanmars/article/details/24566995
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        if (root == null) return;
+        List<TreeNode> prev = new ArrayList<TreeNode>();
+        // Note: need to add something here
+        prev.add(null);
+        List<TreeNode> result = new ArrayList<TreeNode>();
+        inOrder(root, prev, result);
+        if (result.size() > 0) {
+            int tmp = result.get(0).val;
+            result.get(0).val = result.get(1).val;
+            result.get(1).val = tmp;
+        }
+    }
+    
+    private void inOrder(TreeNode root, List<TreeNode> prev, List<TreeNode> result) {
+        if (root == null) return;
+        inOrder(root.left, prev, result);
+        if (prev.get(0) != null && prev.get(0).val > root.val) {
+            if (result.size() == 0) {
+                // first reversed order pair
+                result.add(prev.get(0));
+                result.add(root);
+            } else {
+                // second reversed order pair
+                // only store the second part of the pair
+                result.set(1, root);
+            }
+        }
+        
+        prev.set(0, root);
+        inOrder(root.right, prev, result);
     }
 }
