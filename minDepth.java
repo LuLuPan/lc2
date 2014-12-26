@@ -27,6 +27,7 @@ public class Solution {
 }
 
 // Iterative- level order
+// BFS guarantee shortest path
 public class Solution {
     public int minDepth(TreeNode root) {
         if (root == null) return 0;
@@ -40,6 +41,7 @@ public class Solution {
             level++;
             for (int i = 0; i < size; i++) {
                 TreeNode cur = queue.poll();
+                // break if first leaf node encountered
                 if (cur.left == null && cur.right == null) {
                     firstLeaf = true;
                     break;

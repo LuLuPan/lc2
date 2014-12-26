@@ -43,6 +43,7 @@ public class Solution {
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.push(root);
 
+        // List order is pre-order
         // Pre-order traversal
         while (!stack.isEmpty()) {
           TreeNode cur = stack.pop();

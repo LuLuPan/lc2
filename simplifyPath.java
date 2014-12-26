@@ -15,42 +15,34 @@ In this case, you should ignore redundant slashes and return "/home/foo".
 
 
 Corener Cases: /xxx/yyy, /xxx/..
+               /..
 */
 public class Solution {
     public String simplifyPath(String path) {
-        if (path.length() == 0) return "";
-        StringBuilder result = new StringBuilder();
+        if (path == null || path.length() == 0) return "";
+        int n = path.length();
         Stack<String> stack = new Stack<String>();
-
-        for (int i = 0; i < path.length();) {
-        	int index = i;
-        	StringBuilder sb = new StringBuilder();
-        	while (i < path.length() && path.charAt(i) != '/') {
-        		sb.append(path.charAt(i));
-        		i++;
-        	}
-        	// find meaningful string
-        	if (index != i) {
-        		String folder = sb.toString();
-        		if (folder.equals("..")) {
-        			if (!stack.isEmpty())
-        				stack.pop();
-        		} else if (!folder.equals("."))
-                    stack.push(folder);
-        	}
-        	i++;
+        int j = 0;
+        for (int i = 0; i < n; i++) {
+            if (path.charAt(i) == '/')
+                j = i;
+            else if (i == n - 1 || path.charAt(i + 1) == '/') {
+                String sub = path.substring(j + 1, i + 1);
+                if (sub.equals("..")) {
+                    if (!stack.isEmpty())
+                        stack.pop();
+                } else if (!sub.equals("."))
+                    stack.push(sub);
+            }
         }
-
-        if (!stack.isEmpty()) {
-        	// stack bottom become array head?
-        	String[] strs = stack.toArray(new String[stack.size()]);
-        	for (int i = 0; i < strs.length; i++)
-        		result.append("/" + strs[i]);
-        }
-
+        
+        StringBuilder result = new StringBuilder();
+        String[] strs = stack.toArray(new String[stack.size()]);
+        for (String str : strs)
+            result.append("/" + str);
         if (result.length() == 0)
-        	result.append("/");
-
+            result.append("/");
+        
         return result.toString();
     }
 }

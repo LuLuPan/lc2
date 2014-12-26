@@ -16,19 +16,21 @@ How about multiple spaces between two words?
 Reduce them to a single space in the reversed string.
 */
 public class Solution {
+    // one pass
     public String reverseWords(String s) {
         if (s == null || s.length() == 0) return "";
-        // Notice: after split with space, str array has "" to replace original
-        // space position in the string 
-        String[] strs = s.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (int i = strs.length - 1; i >= 0; i--) {
-        	if(!strs[i].equals("")) {
-        		sb.append(strs[i].toString());
-        		sb.append(" ");
-        	}
+        StringBuilder reversed = new StringBuilder();
+        int j = s.length();
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == ' ')
+                j = i;
+            else if (i == 0 || s.charAt(i - 1) == ' ') {
+                if (reversed.length() != 0)
+                    reversed.append(' ');
+                reversed.append(s.substring(i, j));
+            }
         }
-        // remove extra space at the end
-        return sb.length() == 0 ? "" : sb.toString().substring(0, sb.length() - 1);
+        
+        return reversed.toString();
     }
 }

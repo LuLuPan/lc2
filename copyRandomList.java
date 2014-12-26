@@ -23,35 +23,34 @@ Solution: 1. Copy node and insert cloned node back to original one.
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         if (head == null) return null;
-        // double the list
         RandomListNode cur = head;
+        // double the list
         while (cur != null) {
-        	RandomListNode newNode = new RandomListNode(cur.label);
-        	newNode.next = cur.next;
-        	cur.next = newNode;
-        	cur = cur.next.next;
+            RandomListNode node = new RandomListNode(cur.label);
+            node.next = cur.next;
+            cur.next = node;
+            cur = node.next;
         }
-
+                
         // clone new random
         cur = head;
         while (cur != null) {
-        	if (cur.random != null)
-        		cur.next.random = cur.random.next;
-        	cur = cur.next.next;
+            if (cur.random != null)
+                cur.next.random = cur.random.next;
+            cur = cur.next.next;
         }
-
+        
         // break the list into two
         cur = head;
-        RandomListNode head2 = cur.next;
-        RandomListNode cur1 = cur.next;
-        while (cur.next != null && cur1.next != null) {
-        	cur.next = cur.next.next;
-        	cur = cur.next;
-        	cur1.next = cur1.next.next;
-        	cur1 = cur1.next;
+        RandomListNode dummy = new RandomListNode(-1);
+        RandomListNode cur2 = dummy;
+        while (cur != null) {
+            cur2.next = cur.next;
+            cur.next = cur.next.next;
+            cur = cur.next;
+            cur2 = cur2.next;
         }
-        cur.next = null;
-
-        return head2;
+        
+        return dummy.next;
     }
 }

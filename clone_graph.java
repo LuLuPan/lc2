@@ -47,46 +47,43 @@ Corner case: node is null
  */
 public class Solution {
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node == null) return null;
         HashMap<UndirectedGraphNode, UndirectedGraphNode> copied = 
             new HashMap<UndirectedGraphNode, UndirectedGraphNode>();
-        clone_graph_dfs(node, copied);
+        
+        cloneBFS(node, copied);
         return copied.get(node);
     }
-
-    private void clone_graph_dfs(UndirectedGraphNode node, 
-        HashMap<UndirectedGraphNode, UndirectedGraphNode> copied)
-    {
-        if (copied.containsKey(node))
-            return;
-
-        UndirectedGraphNode new_nd = new UndirectedGraphNode(node.label);
-        copied.put(node, new_nd);
-        for (UndirectedGraphNode nd : node.neighbors) {
-            clone_graph_dfs(nd, copied);
-            new_nd.neighbors.add(copied.get(nd));
+    
+    private void cloneDFS(UndirectedGraphNode node, 
+                         HashMap<UndirectedGraphNode, UndirectedGraphNode> copied) {
+        if (copied.containsKey(node)) return;
+        UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
+        copied.put(node, newNode);
+        for (UndirectedGraphNode nbr : node.neighbors) {
+            cloneDFS(nbr, copied);
+            newNode.neighbors.add(copied.get(nbr));
         }
     }
-
-    private void clone_graph_bfs(UndirectedGraphNode node, 
-        HashMap<UndirectedGraphNode, UndirectedGraphNode> copied)
-    {
+    
+    private void cloneBFS(UndirectedGraphNode node, 
+                          HashMap<UndirectedGraphNode, UndirectedGraphNode> copied) {
+        UndirectedGraphNode newNode = new UndirectedGraphNode(node.label);
+        copied.put(node, newNode);
         Queue<UndirectedGraphNode> queue = new LinkedList<UndirectedGraphNode>();
-        UndirectedGraphNode new_nd = new UndirectedGraphNode(node.label);
-        copied.put(node, new_nd);
         queue.offer(node);
-
         while (!queue.isEmpty()) {
             UndirectedGraphNode nd = queue.poll();
-            for (UndirectedGraphNode hbr : nd.neighbors) {
-                if (copied.containsKey(hbr)) {
+            for (UndirectedGraphNode nbr : nd.neighbors) {
+                if (copied.containsKey(nbr)) {
                     // if copied, do not add to queue to avoid infinite graph loop
-                    copied.get(nd).neighbors.add(copied.get(hbr));
+                    copied.get(nd).neighbors.add(copied.get(nbr));
                 } else {
-                    new_nd = new UndirectedGraphNode(hbr.label);
-                    copied.put(hbr, new_nd);
-                    queue.offer(hbr);
+                    newNode = new UndirectedGraphNode(nbr.label);
+                    copied.put(nbr, newNode);
+                    queue.offer(nbr);
                     // shoud be nd other than hbr
-                    copied.get(nd).neighbors.add(new_nd);                    
+                    copied.get(nd).neighbors.add(newNode);
                 }
             }
         }

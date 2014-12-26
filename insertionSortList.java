@@ -29,19 +29,12 @@ public class Solution {
                 cur = cur.next;
             } else {
                 ListNode p = dummy;
-                while (p.next != cur) {
-                    if (p.next.val < cur.val)
-                        p = p.next;
-                    else {
-                        prev.next = cur.next;
-                        cur.next = p.next;
-                        p.next = cur;
-                        cur = prev.next;
-                        //Error: should break here, or p will keep move on 
-                        // and cur will become null
-                        break;
-                    }
-                }
+                while (p.next != cur && p.next.val < cur.val)
+                    p = p.next;
+                prev.next = cur.next;
+                cur.next = p.next;
+                p.next = cur;
+                cur = prev.next;
             }
         }
 

@@ -31,34 +31,22 @@ return
 public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if (root == null) return result;
-        List<Integer> path = new ArrayList<Integer>();
-        // Error: put root into path at first and deduct its value
-        path.add(root.val);
-        findPath(root, path, result, root.val, sum);
-
+        doSum(root, sum, new ArrayList<Integer>(), result);
         return result;
     }
-
-    private void findPath(TreeNode root, List<Integer> path, 
-    	List<List<Integer>> result, int curSum, int sum)
-    {
-    	if (root.left == null && root.right == null) {
-    		if (curSum == sum) {
-    			result.add(new ArrayList<Integer>(path));
-    		}
-    		return;
-    	}
-
-    	if (root.left != null) {
-    		path.add(root.left.val);
-    		findPath(root.left, path, result, curSum + root.left.val, sum);
-    		path.remove(path.size() - 1);
-    	}
-    	if (root.right != null) {
-    		path.add(root.right.val);
-    		findPath(root.right, path, result, curSum + root.right.val, sum);
-    		path.remove(path.size() - 1);
-    	}
+    
+    private void doSum(TreeNode root, int sum, List<Integer> path, List<List<Integer>> result) {
+        if (root == null) return;
+        if (root.left == null && root.right == null && root.val == sum) {
+            path.add(root.val);
+            result.add(new ArrayList<Integer>(path));
+            path.remove(path.size() - 1);
+            return;
+        }
+        
+        path.add(root.val);
+        doSum(root.left, sum - root.val, path, result);
+        doSum(root.right, sum - root.val, path, result);
+        path.remove(path.size() - 1);
     }
 }

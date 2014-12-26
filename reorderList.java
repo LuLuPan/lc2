@@ -25,44 +25,46 @@ Complexity: O(N) + O(1)
  */
 public class Solution {
     public void reorderList(ListNode head) {
-        if (head == null || head.next == null || head.next.next == null)
+        if (head == null || head.next == null)
             return;
-            
-        ListNode dummy = new ListNode(Integer.MIN_VALUE);
+        ListNode dummy = new ListNode(-1);
         dummy.next = head;
-        ListNode slow = dummy;
         ListNode fast = dummy;
+        ListNode slow = dummy;
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
         }
         
-        // split into two
         fast = slow.next;
         slow.next = null;
+        slow = head;
         
-        // reverse big list
-        ListNode last = new ListNode(Integer.MIN_VALUE);
-        last.next = fast;
-        ListNode prev = fast;
-        ListNode cur = fast.next;
+        fast = reverseList(fast);
+        // merge two
+        // No need to use prev, use tmp to store cur2.next
+        while (slow != null && fast != null) {
+            ListNode n = fast.next;
+            fast.next = slow.next;
+            slow.next = fast;
+            slow = fast.next;
+            fast = n;
+        }
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode prev = head;
+        ListNode cur = head.next;
         while (cur != null) {
             prev.next = cur.next;
-            cur.next = last.next;
-            last.next = cur;
+            cur.next = dummy.next;
+            dummy.next = cur;
             cur = prev.next;
         }
         
-        // merge two
-        // No need to use prev, use tmp to store cur2.next
-        ListNode cur1 = head;
-        ListNode cur2 = last.next;
-        while (cur1 != null && cur2 != null) {
-            ListNode n = cur2.next; // tmp
-            cur2.next = cur1.next;
-            cur1.next = cur2;
-            cur1 = cur2.next;
-            cur2 = n;
-        }
+        return dummy.next;
     }
 }

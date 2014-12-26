@@ -32,19 +32,15 @@ public class Solution {
             fast = fast.next.next;
             slow = slow.next;
         }
-        ListNode l1 = head;
-        ListNode l2 = slow.next;
+        fast = slow.next;
         slow.next = null;
-        l1 = sortList(l1);
-        l2 = sortList(l2);
+        l1 = sortList(head);
+        l2 = sortList(fast);
 
         return merge2Lists(l1, l2);
     }
 
     private ListNode merge2Lists(ListNode l1, ListNode l2) {
-        if (l1 == null) return l2;
-        if (l2 == null) return l1;
-
         ListNode dummy = new ListNode(-1);
         ListNode cur1 = l1;
         ListNode cur2 = l2;

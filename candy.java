@@ -11,31 +11,27 @@ Solution: Scan twice, find neighbors ratings relation
 */
 public class Solution {
     public int candy(int[] ratings) {
+        if (ratings == null || ratings.length == 0)
+            return 0;
         int n = ratings.length;
-        if (n == 0 || n == 1) return n;
-        // at least n
-        int result = n;
-        int[] candies = new int[n];
-        int candy = 1;
-        // default is 0 for least one
-        // Children with a higher rating get more candies than their neighbors.
-        for (int i = 1; i < n; i++) {
-        	if (ratings[i] > ratings[i - 1])
-        		candies[i] = Math.max(candies[i], candy++);
-        	else
-        		candy = 1;
+        int[] increment = new int[n];
+        for (int i = 1, inc = 0; i < n; i++) {
+            if (ratings[i] > ratings[i - 1])
+                increment[i] = Math.max(increment[i], ++inc);
+            else
+                inc = 0;
         }
-
-        candy = 1;
-        for (int i = n - 2; i >= 0; i--) {
-        	if (ratings[i] > ratings[i + 1])
-        		candies[i] = Math.max(candies[i], candy++);
-        	else
-        		candy = 1;
+        
+        for (int i = n - 2, inc = 0; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1])
+                increment[i] = Math.max(increment[i], ++inc);
+            else
+                inc = 0;
         }
-
-        for (int i : candies)
-        	result += i;
-        return result;
+        
+        int sum = 0;
+        for (int i : increment)
+            sum += i;
+        return sum + n;
     }
 }
