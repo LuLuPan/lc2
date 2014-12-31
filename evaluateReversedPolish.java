@@ -51,3 +51,49 @@ Some examples:
         return stack.peek();
     }
 }
+
+// Extensible
+public class Solution {
+    interface Operator {
+        int eval(int x, int y);
+    }
+    
+    private final HashMap<String, Operator> OPERATORS = new HashMap<String, Operator>() {{
+        put("+", new Operator() {
+            public int eval(int x, int y) { return x + y;}
+        });
+        
+        put("-", new Operator() {
+            public int eval(int x, int y) { return x - y;}
+        });
+        
+        put("*", new Operator() {
+            public int eval(int x, int y) { return x * y;}
+        });
+        
+        put("/", new Operator() {
+            public int eval(int x, int y) { return x / y;}
+        });
+    }};
+    
+    public int evalRPN(String[] tokens) {
+        if (tokens == null || tokens.length == 0)
+            return 0;
+        Stack<Integer> stack = new Stack<Integer>();
+        for (String str : tokens) {
+            if (!OPERATORS.containsKey(str)) {
+                stack.push(Integer.parseInt(str));
+            } else {
+                int y = stack.pop();
+                int x = stack.pop();
+                // Error: Cannot use eval(stack.pop(), stack.pop())
+                // For input "0", "3"
+                // Since in parameters, firsst parameter will be 
+                // used at first, so x = 3, y = 0, then error 3 / 0
+                stack.push(OPERATORS.get(str).eval(x, y));
+            }
+        }
+        
+        return stack.pop();
+    }
+}

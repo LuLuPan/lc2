@@ -19,45 +19,39 @@ Corner case: "a" and ["a"]
 public class Solution {
     public List<Integer> findSubstring(String S, String[] L) {
         List<Integer> result = new ArrayList<Integer>();
-        if (S.length() == 0 || L.length == 0) return result;
-        int m = L[0].length();
-        int n = S.length();
-        int cat_len = L.length * m;
-        if ( n < m) return result;
-
-        HashMap<String, Integer> word_map = new HashMap<String, Integer>();
+        if (S == null || L == null || L.length == 0) 
+             return result;
+        int m = S.length();
+        int n = L.length;
+        int len = L[0].length();
+        
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
         for (String str : L) {
-            if (word_map.containsKey(str)) {
-                word_map.put(str, word_map.get(str) + 1);
-            } else {
-                word_map.put(str, 1);
-            }
+            if (!map.containsKey(str))
+                map.put(str, 0);
+            map.put(str, map.get(str) + 1);
         }
-        //Error: should be <= S.length() - cat_len
-        // "a" and ["a"]
-        for (int i = 0; i <= S.length() - cat_len; i++) {
-            HashMap<String, Integer> new_map = new HashMap<String, Integer>();
-            int appears = 0;
-            for (int j = i; j < i + cat_len; j += m) {
-                String word = S.substring(j, j + m);
-                if (word_map.containsKey(word)) {
-                    if (new_map.containsKey(word)) {
-                        new_map.put(word, new_map.get(word) + 1);
-                        if (new_map.get(word) <= word_map.get(word))
-                            appears++;
-                    } else {
-                        new_map.put(word, 1);
-                        appears++;
-                    }
-                } else {
-                    break;
-                }
+        
+        for (int i = 0; i <= m - n * len; i++) {
+            HashMap<String, Integer> inMap = new HashMap<String, Integer>();
+            int count = 0;
+            for (int j = i; j < i + n * len; j += len) {
+                String sub = S.substring(j,  j + len);
+                if (map.containsKey(sub)) {
+                    if (!inMap.containsKey(sub))
+                        inMap.put(sub, 0);
+                    inMap.put(sub, inMap.get(sub) + 1);
+                    if (inMap.get(sub) <= map.get(sub))
+                        count++;
+                    else
+                        break;
+                } else break;
             }
-
-            if (appears == L.length)
+            
+            if (count == n)
                 result.add(i);
         }
-
+        
         return result;
     }
 }

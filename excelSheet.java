@@ -18,18 +18,15 @@ public class Solution {
     public String convertToTitle(int n) {
         StringBuilder sb = new StringBuilder();
         while (n > 0) {
-            int index = n % 26 - 1;
-            n /= 26;
-            char c = 'A';
-            // note: Z need to be considered seperately
-            if (index == -1) {
-                c = 'Z';
+            int val = n % 26;
+            if (val > 0)
+                sb.append((char)(val - 1 + 'A'));
+            else {
+                // note: Z need to be considered seperately
+                sb.append('Z');
                 n--;
             }
-            else
-                c += (char)index;
-                
-            sb.append(c);
+            n /= 26;
         }
         
         return sb.reverse().toString();

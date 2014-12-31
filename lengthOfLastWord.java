@@ -13,17 +13,16 @@ return 5.
 */
 public class Solution {
     public int lengthOfLastWord(String s) {
-        if (s.length() == 0) return 0;
-
-        int result = 0;
-        //Corner case: "a  "
-        for (int i = 0; i < s.length();) {
-        	if (s.charAt(i++) != ' ')
-        		result++;
-        	else if (i < s.length() && s.charAt(i) != ' ')
-        		result = 0;
+        if (s == null || s.length() == 0)
+            return 0;
+        int j = s.length();
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == ' ')
+                j = i;
+            else if (i == 0 || s.charAt(i - 1) == ' ')
+                return j - i;
         }
-
-        return result;
+        
+        return 0;
     }
 }

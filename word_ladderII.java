@@ -24,89 +24,78 @@ Solution: Use HashMap to record all word and its predescders during transform
 */
 public class Solution {
     public List<List<String>> findLadders(String start, String end, Set<String> dict) {
-        List<List<String>> result = new ArrayList<List<String>>();
-        List<String> path = new ArrayList<String>();
-        if (start.equals(end)) {
-            path.add(start);
-            path.add(end);
-            result.add(path);
-            return result;
-        }
-
+        List<List<String>> result = new  ArrayList<List<String>>();
         HashMap<String, List<String>> map = new HashMap<String, List<String>>();
         map.put(start, new ArrayList<String>());
         map.put(end, new ArrayList<String>());
-        for (String str : dict) {
-            if (!map.containsKey(str))
-                map.put(str, new ArrayList<String>());
-        }
-
+        
         Queue<String> queue = new LinkedList<String>();
         queue.offer(start);
-        // list to store nodes in certain level
-        List<String> cur_level = new ArrayList<String>();
-
+        
         while (!queue.isEmpty()) {
-            int level_width = queue.size();
-            cur_level.clear();
-
-            for (int i = 0; i < level_width; i++) {
-                String str = queue.poll();c
+            int size = queue.size();
+            List<String> level = new ArrayList<String>();
+            for (int i = 0; i < size; i++) {
+                String str = queue.poll();
                 if (dict.contains(str))
                     dict.remove(str);
-                cur_level.add(str);
+                level.add(str);
             }
-
-            for (String str : cur_level) {
+            
+            for (String str : level) {
                 for (int i = 0; i < str.length(); i++) {
-                    char[] origin = str.toCharArray();
+                    char[] strArr = str.toCharArray();
+                    char org = strArr[i];
                     for (char c = 'a'; c <= 'z'; c++) {
-                        if (origin[i] != c) {
-                            origin[i] = c;
-                            String new_str = new String(origin);
-                            if (new_str.equals(end)) {
-                                queue.add(end);
+                        if (org != c) {
+                            strArr[i] = c;
+                            String newStr = new String(strArr);
+                            if (newStr.equals(end)) {
                                 map.get(end).add(str);
-                            } else {
-                                if (dict.contains(new_str)) {
-                                    // Error: if remove new str from dict
-                                    // it will exclude other valid transform
-                                    // relationship
-                                    //dict.remove(new_str);
-                                    if (!queue.contains(new_str))
-                                        queue.add(new_str);
-                                    map.get(new_str).add(str);
-                                }
+                                queue.offer(end);
+                            } else if (dict.contains(newStr)) {
+                                // Error: if remove new str from dict
+                                // it will exclude other valid transform
+                                // relationship since several path may share
+                                // one intermediate words
+                                //dict.remove(new_str);
+                                if (!map.containsKey(newStr))
+                                    map.put(newStr, new ArrayList<String>());
+                                map.get(newStr).add(str);
+                                // Note: Need to check new string already within
+                                // queue or not, otherwise will bring redandunancy
+                                // in next level
+                                if (!queue.contains(newStr))
+                                    queue.offer(newStr);
                             }
                         }
                     }
                 }
             }
-
+            
             if (queue.contains(end))
                 break;
         }
-
+        
+        List<String> path = new ArrayList<String>();
         path.add(end);
-        form_path(start, end, map, path, result);
+        helper(start, end, map, path, result);
         return result;
     }
-
-    // DFS to search path
-    private void form_path(String start, String end, HashMap<String, List<String>> map, 
-        List<String> path, List<List<String>> result)
-    {
+    
+    private void helper(String start, String end, HashMap<String, List<String>> map, 
+                        List<String> path, List<List<String>> result) {
         if (start.equals(end)) {
             List<String> tmp = new ArrayList<String>(path);
             Collections.reverse(tmp);
             result.add(tmp);
             return;
         }
-
+        
         for (String str : map.get(end)) {
             path.add(str);
-            form_path(start, str, map, path, result);
+            helper(start, str, map, path, result);
             path.remove(path.size() - 1);
         }
     }
-}
+}                                   

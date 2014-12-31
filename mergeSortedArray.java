@@ -14,23 +14,16 @@ Corner case: A or B is empty
 */
 public class Solution {
     public void merge(int A[], int m, int B[], int n) {
-        //Error: A or B could be empty
-        //if (m == 0 || n == 0) return;
-
         int i = m - 1;
         int j = n - 1;
-        int k = m + n - 1;
-
         while (i >= 0 && j >= 0) {
             if (A[i] > B[j])
-                A[k--] = A[i--];
+                A[i + j + 1] = A[i--];
             else
-                A[k--] = B[j--];
+                A[i + j + 1] = B[j--];
         }
-
-        // Note: cannot write as while (k >= 0)
-        // since B could be empty and then dead loop
+        
         while (j >= 0)
-            A[k--] = B[j--];
+            A[j] = B[j--];
     }
 }

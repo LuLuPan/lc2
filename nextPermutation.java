@@ -32,38 +32,36 @@ So the smallest one bigger than origin permutation
 */
 public class Solution {
     public void nextPermutation(int[] num) {
+        if (num == null || num.length < 2) return;
+        int ri = -1;
         int n = num.length;
-        if (n == 0 || n == 1) return;
-
-        int partitionIndex = -1;
-        for (int i = n - 2; i >= 0; i--) {
-        	if (num[i] < num[i + 1]) {
-        		partitionIndex = i;
-        		break;
-        	}
+        for (int i = n - 1; i >= 1; i--) {
+            if (num[i] > num[i - 1]) {
+                ri = i - 1;
+                break;
+            }
         }
-
-        // swap
-        // if all in incremental order, no swap needed
-        if (partitionIndex >= 0) {
-	        int changeIndex = 0;
-	        for (int i = n - 1; i > partitionIndex; i--) {
-	        	if (num[i] > num[partitionIndex]) {
-	        		changeIndex = i;
-	        		break;
-	        	}
-	        }
-            int tmp = num[partitionIndex];
-            num[partitionIndex] = num[changeIndex];
-            num[changeIndex] = tmp;
+        
+        if (ri != -1) {
+            for (int i = n - 1; i > ri; i--) {
+                if (num[i] > num[ri]) {
+                    swap(i, ri, num);
+                    break;
+                }
+            }
         }
-
-        // reverse [p...n - 1]
-        for (int i = partitionIndex + 1; i < partitionIndex + 1 + (n - partitionIndex) / 2; i++)
-        {
-        	int tmp = num[i];
-        	num[i] = num[n - i + partitionIndex];
-        	num[n - i + partitionIndex] = tmp;
+        
+        int start = ri + 1, end = n - 1;
+        while (start < end) {
+            swap(start, end, num);
+            start++;
+            end--;
         }
+    }
+    
+    private void swap(int i, int j, int[] num) {
+        int tmp = num[i];
+        num[i] = num[j];
+        num[j] = tmp;
     }
 }

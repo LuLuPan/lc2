@@ -14,22 +14,40 @@ Solution: n + 1 space only needed when carry is 1 at the end, which will
 public class Solution {
     public int[] plusOne(int[] digits) {
         if (digits == null || digits.length == 0)
-            return null;
+            return new int[0];
+        int carrier = 0;
         int n = digits.length;
-        int[] result = new int[n + 1];
-        int carry = 0;
-        digits[n - 1] += 1;
+        int[] res = new int[n];
         for (int i = n - 1; i >= 0; i--) {
-            result[i + 1] = digits[i] + carry;
-            carry = result[i + 1] / 10;
-            result[i + 1] %= 10;
+            int sum = (i == n - 1 ? 1 : 0) + digits[i] + carrier;
+            carrier = sum / 10;
+            res[i] = sum % 10;
         }
         
-        if (carry != 0) {
+        if (carrier != 0) {
+            int[] result = new int[n + 1];
+            System.arraycopy(digits, 0, result, 1, n);
             result[0] = 1;
-        } else {
-            result = Arrays.copyOfRange(result, 1, result.length);
+            return result;
         }
-        return result;
+        return res; 
+    }
+}
+
+public class Solution {
+    public void plusOne(List<Integer> digits) {
+        if (digits == null || digits.size() == 0)
+            return;
+        for (int i = digits.size() - 1; i >= 0; i--) {
+            if (digits.get(i) < 9) {
+                digits.set(i, digits.get(i) + 1);
+                return;
+            } else {
+                digits.set(i, 0);
+            }
+        }
+        // add one more bit if all digits are 9
+        digits.add(0);
+        digits.set(0, 1);
     }
 }

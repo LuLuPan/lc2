@@ -28,6 +28,12 @@ public class Solution {
 
         boolean[][] dp = new boolean[n][n];
         for (int i = n - 1; i >= 0; i--) {
+            dp[i][i] = true;
+            // Error: Cannot use j = i + 1. 
+            // since only dp[i][i] is initiated and counted
+            // but f[i] doesn't include i == j case which is
+            // f[i] = min(f[i], f[i + 1] + 1)
+            // this will only has f[i] = min(f[i], f[i + 2] + 1)
             for (int j = i; j < n; j++) {
                 if (s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1]) {
                     dp[i][j] = true;

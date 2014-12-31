@@ -77,7 +77,8 @@ public class Solution {
                     for (int k = 1; k < n; k++) {
                         f[n][i][j] = (f[k][i][j] && f[n - k][i + k][j + k]) ||
                             (f[k][i][j + n - k] && f[n - k][i + k][j]);
-                        // Notice: 
+                        // Notice: break when true, otherwise false may overwrite 
+                        // possible case
                         if (f[n][i][j] == true)
                             break;
                     }

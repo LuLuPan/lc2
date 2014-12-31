@@ -11,25 +11,25 @@ Solution: 1. Swap up and down
 */
 public class Solution {
     public void rotate(int[][] matrix) {
+        if (matrix == null || matrix.length == 0)
+            return;
         int n = matrix.length;
-        if (n == 0 || n == 1) return;
-
-        // swap up and down
         for (int i = 0; i < n / 2; i++) {
-        	for (int j = 0; j < n; j++) {
-        		int tmp = matrix[i][j];
-        		matrix[i][j] = matrix[n - i - 1][j];
-        		matrix[n - i - 1][j] = tmp;
-        	}
+            for (int j = 0; j < n; j++) {
+                swap(matrix, i, j, n - 1 - i, j);
+            }
         }
-
-        // swap dignoal
+        
         for (int i = 0; i < n - 1; i++) {
-        	for (int j = i + 1; j < n; j++) {
-        		int tmp = matrix[i][j];
-        		matrix[i][j] = matrix[j][i];
-        		matrix[j][i] = tmp;
-        	}
+            for (int j = i + 1; j < n; j++) {
+                swap(matrix, i, j, j, i);
+            }
         }
+    }
+    
+    private void swap(int[][] matrix, int y1, int x1, int y2, int x2) {
+        int tmp = matrix[y1][x1];
+        matrix[y1][x1] = matrix[y2][x2];
+        matrix[y2][x2] = tmp;
     }
 }

@@ -12,31 +12,29 @@ Note: The sequence of integers will be represented as a string.
 public class Solution {
     public String countAndSay(int n) {
 
-        if (n == 0) return new String();
-        // Error: i Should be 1
-        // since result is already one
-        int i = 1;
-        String result = new String("1");
-        while (i < n) {
-        	StringBuilder sb = new StringBuilder();
-        	char[] charArr = result.toCharArray();
-        	int dup = 1;
-        	for (int j = 1; j < charArr.length; j++) {
-        		if (charArr[j - 1] == charArr[j])
-        			dup++;
-        		else {
-        			sb.append(dup);
-        			sb.append(charArr[j - 1]);
-        			dup = 1;
-        		}
-        	}
-        	sb.append(dup);
-        	sb.append(charArr[charArr.length - 1]);
-
-        	result = sb.toString();
-        	i++;
+        List<Integer> prev = new ArrayList<Integer>();
+        prev.add(1);
+        for (int i = 2; i <= n; i++) {
+            int count = 1;
+            List<Integer> cur = new ArrayList<Integer>();
+            for (int j = 1; j < prev.size(); j++) {
+                if (prev.get(j) == prev.get(j - 1))
+                    count++;
+                else {
+                    cur.add(count);
+                    cur.add(prev.get(j - 1));
+                    count = 1;
+                }
+            }
+            
+            cur.add(count);
+            cur.add(prev.get(prev.size() - 1));
+            prev = cur;
         }
-
-        return result;
+        StringBuilder result = new StringBuilder();
+        for (int i : prev) 
+            result.append(i);
+            
+        return result.toString();
     }
 }

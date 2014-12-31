@@ -22,11 +22,13 @@ public class Solution {
         int n = prices.length;
         int[] f = new int[n];
         f[0] = 0;
+        // 1st transaction before the ith day
         for (int i = 1, min_price = prices[0]; i < n; i++) {
             min_price = Math.min(min_price, prices[i]);
             f[i] = Math.max(f[i - 1], prices[i] - min_price);
         }
 
+        // 2nd transaction after the ith day
         for (int i = n - 2, max_price = prices[n - 1]; i >= 0; i--) {
             max_price = Math.max(max_price, prices[i]);
             int profit = max_price - prices[i];
