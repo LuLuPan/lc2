@@ -22,7 +22,8 @@ public class Solution {
         int n = prices.length;
         int[] f = new int[n];
         f[0] = 0;
-        // 1st transaction before the ith day
+        // 1st transaction before the ith day ???
+        // best profit until i, do it on just day i or profit before day i
         for (int i = 1, min_price = prices[0]; i < n; i++) {
             min_price = Math.min(min_price, prices[i]);
             f[i] = Math.max(f[i - 1], prices[i] - min_price);
@@ -32,6 +33,7 @@ public class Solution {
         for (int i = n - 2, max_price = prices[n - 1]; i >= 0; i--) {
             max_price = Math.max(max_price, prices[i]);
             int profit = max_price - prices[i];
+            // at most twice, if profit is negative, could only use one
             profit = profit > 0 ? profit : 0; // g[i]
             result = Math.max(result, profit + f[i]);
         }
@@ -61,6 +63,7 @@ public class Solution {
                 // local[i][j]: max profit till i day, j transactions, where there is transaction happening on i day
                 // local[i-1][j] must include transaction on i-1 day, so plus today's transaction will increase number
                 // of transactions, since p[i - 1] - p[i-2] + p[i] - p[i - 1] is the same as p[i]-p[i-2]
+                // at most two transactions, so if diff < 0, only use global[i - 1][j - 1]
                 local[i][j] = Math.max(global[i - 1][j - 1] + Math.max(diff, 0), 
                                            local[i - 1][j] + diff);
                 // global[i][j]: max profit across i days, j transactions                             

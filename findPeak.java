@@ -19,10 +19,13 @@ public class Solution {
         
         while (start <= end) {
             int mid = start + (end - start) / 2;
+            // handle only one element
             if (start == end) 
                 return start;
+            // handle only two elements
             else if (start == end - 1)
                 return num[start] > num[end] ? start : end;
+            // more than two elements
             else if ((num[mid] > num[mid - 1]) && (num[mid] > num[mid + 1]))
                 return mid;
             else if (num[mid - 1] > num[mid])

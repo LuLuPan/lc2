@@ -27,6 +27,7 @@ public class Solution {
                 }
             }
             
+            // last characters that cannot be added in the loop
             cur.add(count);
             cur.add(prev.get(prev.size() - 1));
             prev = cur;

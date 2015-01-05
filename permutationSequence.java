@@ -19,6 +19,7 @@ Solution: 1. Emunate until kth by DFS
              Will time out
           2. Cony code method
           n will have n! permutations, n * (n - 1)!
+          which also means ai change each (n - i)! times
           Besides start digit, there will be (n - 1)! sub permutations
           so each start digite will have (n - 1)! combinations.
           k / !(n - 1) to determine the first digit
@@ -84,6 +85,7 @@ public class Solution {
         	int index = k / permCount;
         	k %= permCount;
         	result.append(num.get(index));
+            // Notice: remove used number index
         	num.remove(index);
         }
 

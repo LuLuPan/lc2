@@ -18,12 +18,17 @@ public class Solution {
         if (nRows <= 1 || s.length() <= 1) return s;
         String result = new String();
         for (int i = 0; i < nRows; i++) {
-            for (int j = 0, index = i; index < s.length();
-                j++, index = (2 * nRows - 2) * j + i) {
+            // index: index of element on vertical cols, for the first cols
+            // index starts from i, one col elems + diag elems = nRows + nRows - 2
+            // index will cover all elements that will fall in this line
+            // so index < s.length()....
+            for (int index = i; index < s.length(); index += (2 * nRows - 2)) {
                 // vertical
                 result += s.charAt(index);
                 // diag
                 if (i == 0 || i == nRows - 1) continue;
+                // index of elements on diagnoal
+                // index + (nRows - i - 1) * 2
                 if (index + (nRows - i - 1) * 2 < s.length())
                     result += s.charAt(index + (nRows - i - 1) * 2);
             }

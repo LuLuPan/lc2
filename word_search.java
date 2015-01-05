@@ -31,6 +31,10 @@ public class Solution {
 
         if (m * n < word.length()) return false;
 
+        // visited[][] to mark used cell to avoid repeating usage
+        // Notice: To save space, if board is not immutable, 
+        // mark the cell as '#' as true, recover after access
+
         boolean[][] visited = new boolean[m][n];
         // try each pos as start point
         for (int i = 0; i < m; i++) {
@@ -51,16 +55,20 @@ public class Solution {
 
         if (y < 0 || y >= board.length || x < 0 || x >= board[0].length)
             return false;
- 
+
+        // if (board[y][x] == '#')
         if (visited[y][x] == true) return false;
 
         if (word.charAt(step) != board[y][x])
             return false;
+        // char c = board[y][x]
+        // board[y][x] = '#'
         visited[y][x] = true;
         boolean ret = dfs(board, word, y, x - 1, step + 1, visited) ||
                dfs(board, word, y, x + 1, step + 1, visited) ||
                dfs(board, word, y - 1, x, step + 1, visited) ||
                dfs(board, word, y + 1, x, step + 1, visited);
+        // board[y][x] = c
         visited[y][x] = false;
         return ret;
     }

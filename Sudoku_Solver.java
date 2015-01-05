@@ -29,6 +29,8 @@ public class Solution {
             }
         }
         
+        // Noteice: will arrive here for after all board is valid filled at the end
+        // cannot be false...
         return true;
     }
     

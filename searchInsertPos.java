@@ -30,11 +30,16 @@ public class Solution {
                 end = mid;
         }
 
-        // still need to compare with target to determine final position
-        // target doesn't exist, start is lower bound
-        if (A[start] < target)
+        /*
+        start is the lower bound for target, A[starts] supposed to be <= target
+
+        if A[start] == target ,return start
+        if A[start] < target, return start + 1
+        if A[start] > target, which means target doesn't exist, return start
+        */
+        if (A[start] >= target)
+            return start;
+        else
             return start + 1;
-        // target exist
-        return start;
     }
 }

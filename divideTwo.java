@@ -3,8 +3,12 @@ Divide two integers without using multiplication, division and mod operator.
 */
 public class Solution {
     public int divide(int dividend, int divisor) {
-        int sign = (dividend > 0 ? 1 : -1) * (divisor > 0 ? 1 : -1);
+        //int sign = (dividend > 0 ? 1 : -1) * (divisor > 0 ? 1 : -1);
         // note 1
+        int sign = 1;
+        if ((dividend < 0) ^ (divisor < 0))
+            sign = -1;
+
         long a = Math.abs((long)dividend);
         long b = Math.abs((long)divisor);
 

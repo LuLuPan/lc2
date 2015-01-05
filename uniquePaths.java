@@ -10,6 +10,11 @@ How many possible unique paths are there?
 
 Solution: 1. DP: f[i][j] = f[i-1][j] + f[i][j-1]
             2D=>1D : f[j] = f[j] + f[j-1]
+
+            Intial:
+            f[i][0] = 1
+            f[0][j] = 1
+            
           2. DFS + Memo
 Complexity:
 Corner case:

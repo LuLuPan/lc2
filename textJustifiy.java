@@ -40,8 +40,8 @@ public class Solution {
         List<String> result = new ArrayList<String>("");
         if (L == 0 || words.length == 0) return result;
 
-        int curLen = 0;
-        int curStart = 0;
+        int curLen = 0;   // current words length sum in current row
+        int curStart = 0; // start word index in current row
         for (int i = 0; i < words.length; i++) {
             if (curLen + words[i].length() + i - curStart > L) {
                 String line = formLine(L, curLen, curStart, i - curStart, words, false);
@@ -51,7 +51,7 @@ public class Solution {
             }
             curLen += words[i].length();
         }
-
+        // if words left for the last line but cannot fill up the line
         String line = formLine(L, curLen, curStart, words.length - curStart, words, true);
         result.add(new String(line));
 
@@ -61,7 +61,7 @@ public class Solution {
     private String formLine(int L, int curLen, int curStart, int wordNum, 
         String[] words, boolean lastLine)
     {
-        //when there is only one word, spaceNum will be zero
+        // when there is only one word, spaceNum will be zero
         // make it at lease one
         int spaceNum = wordNum - 1;
         spaceNum = spaceNum > 0 ? spaceNum : 1;
@@ -77,15 +77,16 @@ public class Solution {
         }
 
         // form the line string
-        String line = new String();
-        for (int i = curStart; i < curStart + wordNum; i++) {
-            line += words[i];
-
-            if (i < curStart + spaceNum) {
+        StringBuilder line = new StringBuilder();
+        for (int i = curStart; i < curStart + wordsNum; i++) {
+            line.append(words[i]);
+            
+            if (i != curStart + wordsNum - 1) {
                 for (int j = 0; j < spaces[i - curStart]; j++)
-                    line += " ";
+                    line.append(" ");
             }
         }
+        
 
         while (line.length() < L)
             line += " ";

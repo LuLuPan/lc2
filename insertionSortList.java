@@ -29,7 +29,7 @@ public class Solution {
                 cur = cur.next;
             } else {
                 ListNode p = dummy;
-                while (p.next != cur && p.next.val < cur.val)
+                while (p.next != prev && p.next.val < cur.val)
                     p = p.next;
                 prev.next = cur.next;
                 cur.next = p.next;

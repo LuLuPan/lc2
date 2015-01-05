@@ -18,11 +18,9 @@ public class Solution {
         if (s == null || s.length() == 0)
             return 0;
         int result = 0;
-        for (int i = 0; i < s.length(); i++) {
-            result *= 26;
-            result += s.charAt(i) - 'A' + 1;
-        }
-        
+        for (char c : s.toCharArray())
+            result = result * 26 + c - 'A' + 1;
+            
         return result;
     }
 }

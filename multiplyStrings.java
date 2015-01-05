@@ -44,11 +44,15 @@ public class Solution {
         
         StringBuilder result = new StringBuilder();
         int num = 0;
+        // i: bit index for result
+        // j: bit index for num1
         for (int i = m + n; i > 0; i--) {
+            // limit num1 index to first most bits if not enough num2 bits
             for (int j = Math.min(m, i - 1); j > 0; j--) {
+                // gurantee num2 has enough bit
                 if (i - j <= n) {
-                    int a = (int)(num1.charAt(j - 1) - '0');
-                    int b = (int)(num2.charAt(i - j - 1) - '0');
+                    int a = (int)(num1.charAt(j - 1) - '0'); // num1
+                    int b = (int)(num2.charAt(i - j - 1) - '0'); // num2
                     num += a * b;
                 }
             }
@@ -56,7 +60,7 @@ public class Solution {
             // if i == 1, num > 0, only carry bit left
             if (i != 1 || num > 0)
                 result.append(num % 10);
-            num /= 10;
+            num /= 10; // carry bit
         }
             
             

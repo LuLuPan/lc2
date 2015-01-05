@@ -35,6 +35,27 @@ public class Solution {
 }
 
 public class Solution {
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+        int[] result = new int[n];
+        for (int i = n - 1; i >= 0; i--) {
+            if (digits[i] == 9)
+                result[i] = 0;
+            else {
+                // no more carry bit, return result after copy rest array
+                result[i] = digits[i] + 1;
+                System.arraycopy(digits, 0, result, 0, i);
+                return result;
+            }
+        }
+        
+        result = new int[n + 1];
+        result[0] = 1;
+        return result;
+    }
+}
+
+public class Solution {
     public void plusOne(List<Integer> digits) {
         if (digits == null || digits.size() == 0)
             return;

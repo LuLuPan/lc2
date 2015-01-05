@@ -13,6 +13,7 @@ public class Solution {
 
 
         int from = start - 1;
+        // could handle vals.length == 0
         for (int i = 0; i <= vals.length; i++) {
             int to = i == vals.length ? end + 1: A[i];
             if (from - to > 1) {

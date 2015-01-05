@@ -25,76 +25,92 @@ Notice: LinkedList is doubly linked list, but it doesn't provide prev and next
 
 */
 
-public class LRUCache < K, V > extends LinkedHashMap < K, V > {
- 
-    private int capacity; // Maximum number of items in the cache.
-     
-    public LRUCache(int capacity) { 
-        super(capacity+1, 1.0f, true); // Pass 'true' for accessOrder.
-        this.capacity = capacity;
-    }
-     
-    protected boolean removeEldestEntry(Entry entry) {
-        return (size() > this.capacity);
-    } 
-}
-
 public class LRUCache {
-    private class CacheNode {
-    	private int key;
-    	private int value;
-    	public CacheNode(int k, int v) {
-    		this.key = k;
-    		this.value = v;
-    	}
-
-    	public int getKey() {
-    		return this.key;
-    	}
-    	public int getValue() {
-    		return this.value;
-    	}
-    	public void setValue(int v) {
-    	    this.value = v;
-    	}
+    class Node {
+        int key;
+        int value;
+        Node next;
+        Node prev;
+        public Node(int k, int v) {
+            this.key = k;
+            this.value = v;
+            this.next = null;
+            this.prev = null;
+        }
     }
-    private LinkedList<CacheNode> cacheList = new LinkedList<CacheNode>();
-    private HashMap<Integer, CacheNode> cacheMap = new HashMap<Integer, CacheNode>();
-    private int capacity = 0;
+    
+    private Node head;
+    private Node tail;
+    private HashMap<Integer, Node> map;
+    private int size;
+    private int capacity;
+    
     public LRUCache(int capacity) {
+        this.size = 0;
         this.capacity = capacity;
+        this.head = null;
+        this.tail = null;
+        this.map = new HashMap<Integer, Node>();
     }
     
     public int get(int key) {
-        if (!cacheMap.containsKey(key)) return -1;
-        CacheNode node = cacheMap.get(key);
-        if (cacheList.getFirst() != node) {
-            cacheList.remove(node);
-        	cacheList.addFirst(node);
+        if (!map.containsKey(key)) return -1;
+        Node node = map.get(key);
+        if (node != head) {
+            removeNode(node);
+            addHead(node);
         }
-
-        return node.getValue();
-    }
+        
+        return node.value;
+     }
     
     public void set(int key, int value) {
-    	// key already exists?
-    	if (!cacheMap.containsKey(key)) {
-            if (cacheList.size() == capacity) {
-        	    // invalidate tail node if no space
-        	    cacheMap.remove(cacheList.getLast().getKey());
-        	    cacheList.removeLast();
-            }
-            // insert new node as head
-            CacheNode newNode = new CacheNode(key, value);
-            cacheList.addFirst(newNode);
-            cacheMap.put(key, cacheList.getFirst());
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.value = value;
+            removeNode(node);
+            addHead(node);
         } else {
-        	// put existed node as head
-        	CacheNode node = cacheMap.get(key);
-        	if (cacheList.getFirst() != node) {
-        		cacheList.remove(node);
-        		cacheList.addFirst(node);
-        	}
+            Node node = new Node(key, value);
+            addHead(node);
+            map.put(key, node);
+            if (size == capacity) {
+                map.remove(tail.key);
+                removeNode(tail);
+            } else {
+                size++;
+            }
+        }
+    }
+    
+    private void addHead(Node node) {
+        if (head == null) {
+            tail = head = node;
+        } else {
+            node.next = head;
+            head.prev = node;
+            head = node;
+        }
+    }
+    
+    private void removeNode(Node node) {
+        if (node == head) {
+            if (node == tail)
+                head = tail = null;
+            else {
+                head = node.next;
+                node.next = null;
+                head.prev = null;
+            }
+        } else if (node == tail) {
+            tail = node.prev;
+            node.prev = null;
+            tail.next = null;
+        } else {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            node.prev = null;
+            node.next = null;
         }
     }
 }
