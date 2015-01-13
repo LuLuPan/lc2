@@ -39,3 +39,32 @@ public class Solution {
         return result.toString();
     }
 }
+
+public class Solution {
+    public String countAndSay(int n) {
+        if (n < 1) return "";
+        StringBuilder result = new StringBuilder();
+        List<Integer> prev = new ArrayList<Integer>();
+        prev.add(1);
+        for (int i = 2; i <= n; i++) {
+            List<Integer> cur = new ArrayList<Integer>();
+            int count = 1;
+            for (int j = 1; j <= prev.size(); j++) {
+                if (j != prev.size() && prev.get(j) == prev.get(j - 1))
+                    count++;
+                else {
+                    cur.add(count);
+                    cur.add(prev.get(j - 1));
+                    count = 1;
+                }
+            }
+            
+            prev = cur;
+        }
+        
+        for (int i : prev)
+            result.append(i);
+            
+        return result.toString();
+    }
+}

@@ -25,4 +25,30 @@ class solution {
         
         return Math.max(s.length() - i, maxLen);
     }
+
+
+    // General solution for at most k characters    
+    public int lengthOfLongestSubstringTwoDistinct(String str) {
+        int k = 2;
+        int i = 0, maxLen = 0, numDistinct = 0;
+        int[] count = new int[256];
+        for (int j = 0; j < str.length(); j++) {
+            char c = str.charAt(j);
+            if (count[c] == 0)
+                numDistinct++;
+            count[c]++;
+            
+            while (numDistinct > k) {
+                count[str.charAt(i)]--;
+                if (count[str.charAt(i)] == 0)
+                    numDistinct--;
+                i++;
+            }
+            
+            maxLen = Math.max(maxLen, j - i + 1);
+        }
+        
+        return maxLen;
+    }
 }
+

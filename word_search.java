@@ -73,3 +73,38 @@ public class Solution {
         return ret;
     }
 }
+
+
+public class Solution {
+    public boolean exist(char[][] board, String word) {
+        if (board == null || board.length == 0 || word == null || word.length() == 0)
+            return false;
+        int m = board.length;
+        int n = board[0].length;
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    if (helper(board, i, j, word, 0))
+                        return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean helper(char[][] board, int y, int x, String word, int steps) {
+        if (steps == word.length()) return true;
+        if (y < 0 || y >= board.length || x < 0 || x >= board[0].length) return false;
+        if (board[y][x] == '#') return false;
+        if (board[y][x] != word.charAt(steps)) return false;
+        board[y][x] = '#';
+        boolean res = helper(board, y, x + 1, word, steps + 1) ||
+                      helper(board, y, x - 1, word, steps + 1) ||
+                      helper(board, y + 1, x, word, steps + 1) ||
+                      helper(board, y - 1, x, word, steps + 1);
+        board[y][x] = word.charAt(steps);
+        return res;
+    }
+}

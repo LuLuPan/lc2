@@ -20,6 +20,7 @@ public class Solution {
     public String reverseWords(String s) {
         if (s == null || s.length() == 0) return "";
         StringBuilder reversed = new StringBuilder();
+        // Notice: j = n, " 1"
         int j = s.length();
         for (int i = s.length() - 1; i >= 0; i--) {
             if (s.charAt(i) == ' ')

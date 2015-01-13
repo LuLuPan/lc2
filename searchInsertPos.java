@@ -43,3 +43,25 @@ public class Solution {
             return start + 1;
     }
 }
+
+public class Solution {
+    public int searchInsert(int[] A, int target) {
+        if (A == null || A.length == 0) return 0;
+        int start = findBound(A, 0, A.length - 1, target);
+        if (A[start] >= target)
+            return start;
+        else
+            return start + 1;
+    }
+    
+    private int findBound(int[] A, int start, int end, int target) {
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (A[mid] < target)
+                start = mid + 1;
+            else end = mid;
+        }
+        
+        return start;
+    }
+}

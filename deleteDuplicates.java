@@ -19,15 +19,21 @@ Given 1->1->2->3->3, return 1->2->3.
  */
 public class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) return head;
+        if (head == null || head.next == null) return head;
+        ListNode cur = head;
         ListNode prev = head;
-        ListNode cur = prev.next;
         while (cur != null) {
-            while (cur != null && cur.val == prev.val)
+            if (cur.val == prev.val)
                 cur = cur.next;
-            prev.next = cur;
-            prev = cur;
+            else {
+                prev.next = cur;
+                prev = cur;
+                cur = cur.next;
+            }
         }
+        
+        // Notice: 1->1
+        prev.next = cur;
         
         return head;
     }

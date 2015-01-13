@@ -16,7 +16,7 @@ public class Solution {
         // could handle vals.length == 0
         for (int i = 0; i <= vals.length; i++) {
             int to = i == vals.length ? end + 1: A[i];
-            if (from - to > 1) {
+            if (to - from > 1) {
                 String range = getRange(from + 1, to - 1);
                 result.add(range);
             }

@@ -28,3 +28,24 @@ public class Solution {
         return result;
     }
 }
+
+
+public static double sqrt(double number) {
+    if (number < 0)
+            return Double.NaN;
+    double low = 0;
+    double high = number > 1 ? number : 1;
+    double eps = 0.000000001;
+    int loops = 1000;
+    double sqrt = 0;
+    while (loops-- > 0) {
+            sqrt = (low + high) / 2;
+            if (Math.abs(sqrt * sqrt - number) <= eps)
+                    break;
+            else if (sqrt * sqrt > number)
+                    high = sqrt;
+            else
+                    low = sqrt;
+    }
+    return sqrt;
+}

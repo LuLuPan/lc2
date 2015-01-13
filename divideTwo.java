@@ -5,6 +5,7 @@ public class Solution {
     public int divide(int dividend, int divisor) {
         //int sign = (dividend > 0 ? 1 : -1) * (divisor > 0 ? 1 : -1);
         // note 1
+        if (divisor == 0) return Integer.MAX_VALUE;
         int sign = 1;
         if ((dividend < 0) ^ (divisor < 0))
             sign = -1;
@@ -22,7 +23,7 @@ public class Solution {
                 a -= bb;
                 count += multi;
                 // note 3
-                if (bb < Integer.MAX_VALUE >> 1) {
+                if (bb <= Integer.MAX_VALUE >> 1) {
                     bb += bb;
                     multi += multi;
                 }

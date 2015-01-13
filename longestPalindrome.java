@@ -35,6 +35,32 @@ public class Solution {
     }
 }
 
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) return "";
+        int n = s.length();
+        boolean[][] f = new boolean[n][n];
+        int maxLen = 1;
+        int start = 0;
+        // [i+1][j-1]: i should be decrementing since i will use i+1, 
+        //             j should be incrementing since j will use j-1
+        for (int i = n - 1; i >= 0; i--) {
+            f[i][i] = true;
+            for (int j = i + 1; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || f[i + 1][j - 1])) {
+                    f[i][j] = true;
+                    if (j - i + 1 > maxLen) {
+                        maxLen = j - i + 1;
+                        start = i;
+                    }
+                }
+            }
+        }
+        
+        return s.substring(start, start + maxLen);
+    }
+}
+
 // Solution 2
 // Manacher’s Algorithm
 // http://leetcode.com/2011/11/longest-palindromic-substring-part-ii.html
